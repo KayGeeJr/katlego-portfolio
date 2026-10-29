@@ -263,3 +263,7 @@ export const aiWorkflow = [
     tools: ["Azure DevOps", "CI/CD", "Git"],
   },
 ] as const;
+
+/** Professional summary, as on the CV. */
+export const cvSummary =
+  "Software developer with 6+ years of frontend-focused experience building production-grade web and mobile applications for the South African fintech and banking sector — including FNB, ABSA, Standard Bank and Nedbank. Proficient in React, Angular and Vue, with growing full-stack capability in .NET/C#, Node.js and Azure. I approach every problem as an engineer first and a programmer second: I diagnose root causes, weigh trade-offs, then build clean, maintainable solutions. I actively pair deep problem-solving with AI development tools (Claude Code, Cursor AI, JetBrains) to ship faster without sacrificing quality.";

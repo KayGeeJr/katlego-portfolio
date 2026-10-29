@@ -291,7 +291,12 @@ export function nextProject(slug: string) {
   return publicProjects[(i + 1) % publicProjects.length];
 }
 
-/** Strip TODO markers for public rendering. */
+/** Strip TODO(confirm) markers for public rendering (they stay in this file for Katlego to resolve). */
 export function clean(text: string) {
-  return text.replace(/\s*[—-]?\s*TODO\(confirm\)\.?/g, "").trim();
+  return text.replace(/\s*[—-]?\s*TODO\(confirm\)[^.]*\.?/g, "").trim();
+}
+
+/** Stack entries that are known (TODO placeholders removed). */
+export function knownStack(p: Project) {
+  return p.stack.filter((s) => !s.includes("TODO"));
 }
