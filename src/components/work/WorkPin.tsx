@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { gsap } from "@/lib/gsap";
 import { whenIdle } from "@/lib/motion";
 
 /** Pins #work and scrubs its track sideways on wider screens. Touch/narrow/reduced-motion keep native horizontal scroll. */
 export default function WorkPin() {
-  useEffect(() => {
+  // Layout effect on purpose: the pin wraps #work in a pin-spacer, and that has to be undone
+  // before React removes the section on navigation, or React removes a node from the wrong parent.
+  useLayoutEffect(() => {
     const section = document.getElementById("work");
     const el = section?.querySelector<HTMLElement>("[data-work-track]");
     if (!section || !el) return;
