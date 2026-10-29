@@ -1,0 +1,45 @@
+{
+  "name": "katlego-nkuna-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portfolio of Katlego Nkuna — Highveld to Interface.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "npx serve@14 out -l 3000",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "capture": "tsx scripts/capture.ts",
+    "capture:one": "tsx scripts/capture.ts --only",
+    "og": "tsx scripts/og.ts",
+    "shots": "tsx scripts/self-shots.ts",
+    "audit": "tsx scripts/audit.ts"
+  },
+  "dependencies": {
+    "@fontsource-variable/hanken-grotesk": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/unbounded": "^5.3.0",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.27",
+    "next": "^16.4.3",
+    "ogl": "^1.0.11",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "ffmpeg-static": "^5.3.0",
+    "lighthouse": "^13.6.0",
+    "playwright": "1.63.0",
+    "postcss": "^8.5.32",
+    "serve": "^14.2.6",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.15",
+    "typescript": "5.9.3"
+  }
+}

@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+captures/raw
+captures/videos-raw
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+audit/*.json
+shots
