@@ -1,9 +1,4 @@
-"use client";
-
-import { useEffect, useMemo, useRef } from "react";
 import { journey } from "@/data/site";
-import { gsap } from "@/lib/gsap";
-import { prefersReducedMotion } from "@/lib/motion";
 import SectionHead from "@/components/ui/SectionHead";
 
 const W = 1000;
@@ -31,11 +26,8 @@ const labelPos: Record<string, { dx: number; dy: number; anchor: "start" | "end"
 };
 
 export default function Journey() {
-  const root = useRef<HTMLElement>(null);
-  const pts = useMemo(() => journey.map((s) => project(s.lon, s.lat)), []);
-  const legs = useMemo(
-    () =>
-      pts.slice(1).map((p, i) => {
+  const pts = journey.map((s) => project(s.lon, s.lat));
+  const legs = pts.slice(1).map((p, i) => {
         const a = pts[i];
         const mx = (a[0] + p[0]) / 2, my = (a[1] + p[1]) / 2;
         const dx = p[0] - a[0], dy = p[1] - a[1];
@@ -43,46 +35,22 @@ export default function Journey() {
         const lift = Math.min(90, len * 0.35);
         const c = [mx + (dy / len) * lift, my - (dx / len) * lift * (dx < 0 ? -1 : 1)];
         return `M${a[0].toFixed(1)} ${a[1].toFixed(1)} Q${c[0].toFixed(1)} ${c[1].toFixed(1)} ${p[0].toFixed(1)} ${p[1].toFixed(1)}`;
-      }),
-    [pts],
-  );
+  });
   const distances = journey.slice(1).map((s, i) => km(journey[i], s));
   const total = distances.reduce((a, b) => a + b, 0);
-
-  useEffect(() => {
-    const el = root.current;
-    if (!el) return;
-    const paths = el.querySelectorAll<SVGPathElement>(".leg");
-    const stops = el.querySelectorAll<SVGGElement>(".stop");
-    if (prefersReducedMotion()) {
-      gsap.set(paths, { strokeDashoffset: 0 });
-      gsap.set(stops, { opacity: 1 });
-      return;
-    }
-    const ctx = gsap.context(() => {
-      gsap.set(paths, { strokeDasharray: 1, strokeDashoffset: 1 });
-      gsap.set(stops, { opacity: 0.25 });
-      const tl = gsap.timeline({ scrollTrigger: { trigger: el.querySelector("svg"), start: "top 75%", end: "bottom 40%", scrub: 0.6 } });
-      tl.to(stops[0], { opacity: 1, duration: 0.2 });
-      paths.forEach((p, i) => {
-        tl.to(p, { strokeDashoffset: 0, duration: 1, ease: "none" }).to(stops[i + 1], { opacity: 1, duration: 0.2 }, "<0.85");
-      });
-    }, el);
-    return () => ctx.revert();
-  }, []);
 
   const lonTicks = [28, 28.5, 29, 29.5, 30, 30.5, 31];
   const latTicks = [-25.5, -26];
 
   return (
-    <section ref={root} id="journey" aria-labelledby="journey-title" className="section border-t border-line">
+    <section id="journey" aria-labelledby="journey-title" className="section border-t border-line">
       <div className="wrap">
         <SectionHead tag="Journey" id="journey-title" title="Lowveld to Highveld.">
           Four places, about {total} km as the crow flies, and every one of them taught me something I still use.
         </SectionHead>
 
         <figure className="relative -mx-[var(--gutter)] overflow-x-auto border-y border-line bg-bg-sunk sm:mx-0 sm:overflow-hidden sm:border" tabIndex={0} aria-label="Journey map (scrolls sideways on small screens)">
-          <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full min-w-[720px] sm:min-w-0" role="img" aria-labelledby="journey-map-desc">
+          <svg data-fx="journey" viewBox={`0 0 ${W} ${H}`} className="h-auto w-full min-w-[720px] sm:min-w-0" role="img" aria-labelledby="journey-map-desc">
             <desc id="journey-map-desc">
               A map tracing a path from Nelspruit in Mpumalanga west to Pretoria, then south to Sandton and east to Kempton Park in Gauteng.
             </desc>

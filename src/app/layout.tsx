@@ -1,14 +1,15 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import localFont from "next/font/local";
 import "./globals.css";
 import { site } from "@/data/site";
 import Header from "@/components/chrome/Header";
-import SmoothScroll from "@/components/chrome/SmoothScroll";
 import ScrollProgress from "@/components/chrome/ScrollProgress";
-import Cursor from "@/components/chrome/Cursor";
+import FinePointerOnly from "@/components/chrome/FinePointerOnly";
 import Preloader from "@/components/chrome/Preloader";
 import NegativeMode from "@/components/chrome/NegativeMode";
 import Reveal from "@/components/chrome/Reveal";
+import ScrollFx from "@/components/chrome/ScrollFx";
 import Contact from "@/components/sections/Contact";
 
 const unbounded = localFont({
@@ -74,7 +75,7 @@ export const viewport: Viewport = {
 };
 
 // Runs before paint: theme, JS flag and whether to show the intro (no flash, no layout shift).
-const bootScript = `(function(){var d=document.documentElement;d.classList.add('js');try{var p=JSON.parse(localStorage.getItem('kn-prefs')||'{}');d.dataset.theme=p.theme==='light'?'light':'dark';if(p.theme==='light'){var m=document.querySelector('meta[name="theme-color"]');m&&m.setAttribute('content','#f1e7d6')}}catch(e){d.dataset.theme='dark'}try{if(sessionStorage.getItem('kn-intro')||matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('preloaded')}catch(e){d.classList.add('preloaded')}})();`;
+const bootScript = `(function(){var d=document.documentElement;d.classList.add('js');try{var p=JSON.parse(localStorage.getItem('kn-prefs')||'{}');d.dataset.theme=p.theme==='light'?'light':'dark';if(p.theme==='light'){var m=document.querySelector('meta[name="theme-color"]');m&&m.setAttribute('content','#f1e7d6')}}catch(e){d.dataset.theme='dark'}try{if(sessionStorage.getItem('kn-intro')||matchMedia('(prefers-reduced-motion: reduce)').matches||matchMedia('(pointer: coarse)').matches)d.classList.add('preloaded')}catch(e){d.classList.add('preloaded')}})();`;
 
 const personLd = {
   "@context": "https://schema.org",
@@ -106,11 +107,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main" tabIndex={-1} className="outline-none">
           {children}
         </main>
-        <Contact />
+        <Suspense fallback={null}>
+          <Contact />
+        </Suspense>
         <div className="curtain" aria-hidden="true" />
-        <Cursor />
-        <SmoothScroll />
+        <FinePointerOnly />
         <Reveal />
+        <ScrollFx />
         <NegativeMode />
       </body>
     </html>

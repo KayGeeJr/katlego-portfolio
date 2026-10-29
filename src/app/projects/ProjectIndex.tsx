@@ -39,7 +39,7 @@ export default function ProjectIndex() {
         {filters.map((f) => (
           <button key={f.key} type="button" aria-pressed={filter === f.key} onClick={() => setFilter(f.key)} className={`chip !py-2 transition-colors ${filter === f.key ? "border-accent bg-accent text-[var(--accent-ink)]" : "hover:border-line-strong"}`}>
             {f.label}
-            <span className="t-data opacity-70">{f.key === "all" ? publicProjects.length : publicProjects.filter((p) => p.group === f.key).length}</span>
+            <span className="t-data">{f.key === "all" ? publicProjects.length : publicProjects.filter((p) => p.group === f.key).length}</span>
           </button>
         ))}
       </div>

@@ -14,7 +14,8 @@ declare global {
 /** Lenis smooth scroll, synced to GSAP's ticker. Off for reduced motion and touch-first devices (native scroll is better there). */
 export default function SmoothScroll() {
   useEffect(() => {
-    if (prefersReducedMotion()) return;
+    // native scroll is better on touch; Lenis only for mouse/trackpad
+    if (prefersReducedMotion() || matchMedia("(pointer: coarse)").matches) return;
     const lenis = new Lenis({ duration: 1.1, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true, syncTouch: false });
     window.__lenis = lenis;
     lenis.on("scroll", ScrollTrigger.update);

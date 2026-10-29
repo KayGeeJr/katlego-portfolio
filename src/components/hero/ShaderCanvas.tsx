@@ -74,7 +74,7 @@ export default function ShaderCanvas({ params, paramsRef, trackRef, scrollRef, m
     ro.observe(el);
 
     // pointer → smoothed lens
-    const target = { x: 0.68, y: 0.42, hover: reduce ? 0 : 0.55 };
+    const target = { x: 0.68, y: 0.42, hover: reduce ? 0 : 0.3 };
     const cur = { x: target.x, y: target.y, hover: 0 };
     const tracker = trackRef?.current ?? el.parentElement ?? el;
     const onMove = (e: PointerEvent) => {
@@ -83,7 +83,7 @@ export default function ShaderCanvas({ params, paramsRef, trackRef, scrollRef, m
       target.y = 1 - (e.clientY - r.top) / r.height;
       target.hover = 1;
     };
-    const onLeave = () => (target.hover = 0.55);
+    const onLeave = () => (target.hover = 0.3);
     if (!reduce) {
       tracker.addEventListener("pointermove", onMove, { passive: true });
       tracker.addEventListener("pointerleave", onLeave);

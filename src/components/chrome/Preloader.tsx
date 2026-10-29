@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap } from "@/lib/gsap";
 import { generatePattern, toneVar } from "@/lib/pattern";
 
 declare global {
@@ -35,7 +34,7 @@ const shapes = generatePattern({ cols: 7, seed: 11, allow: ["steps", "diamond", 
  */
 export default function Preloader() {
   const root = useRef<HTMLDivElement>(null);
-  const count = useRef<HTMLSpanElement>(null);
+  const countRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -44,19 +43,37 @@ export default function Preloader() {
       done();
       return;
     }
-    const paths = el.querySelectorAll("path");
-    const n = { v: 0 };
-    const tl = gsap.timeline({
-      onComplete: () => {
+    // Native Web Animations: no animation library on the critical path.
+    const ease = "cubic-bezier(0.16, 1, 0.3, 1)";
+    const anims: Animation[] = [];
+    el.querySelectorAll("path").forEach((p, i) =>
+      anims.push(p.animate([{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 1000, delay: i * 30, easing: ease, fill: "forwards" })),
+    );
+    const start = performance.now();
+    let raf = 0;
+    const count = () => {
+      const t = Math.min(1, (performance.now() - start) / 1150);
+      const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      if (countRef.current) countRef.current.textContent = String(Math.round(e * 100)).padStart(3, "0");
+      if (t < 1) raf = requestAnimationFrame(count);
+    };
+    raf = requestAnimationFrame(count);
+    const inner = el.querySelector<HTMLElement>(".pl-inner")!;
+    anims.push(inner.animate([{ transform: "none", opacity: 1 }, { transform: "translateY(-30%)", opacity: 0 }], { duration: 500, delay: 1200, easing: "cubic-bezier(0.55, 0, 1, 0.45)", fill: "forwards" }));
+    const t1 = setTimeout(done, 1250);
+    const lift = el.animate([{ clipPath: "inset(0 0 0 0)" }, { clipPath: "inset(0 0 100% 0)" }], { duration: 700, delay: 1250, easing: "cubic-bezier(0.65, 0, 0.35, 1)", fill: "forwards" });
+    anims.push(lift);
+    lift.finished
+      .then(() => {
         html.classList.add("preloaded");
         try { sessionStorage.setItem("kn-intro", "1"); } catch {}
-      },
-    });
-    tl.to(paths, { strokeDashoffset: 0, duration: 1.0, stagger: 0.03, ease: "expo.out" }, 0)
-      .to(n, { v: 100, duration: 1.15, ease: "power2.inOut", onUpdate: () => { if (count.current) count.current.textContent = String(Math.round(n.v)).padStart(3, "0"); } }, 0)
-      .to(el.querySelector(".pl-inner"), { yPercent: -30, opacity: 0, duration: 0.5, ease: "power3.in" }, 1.2)
-      .to(el, { clipPath: "inset(0 0 100% 0)", duration: 0.7, ease: "power3.inOut", onStart: done }, 1.25);
-    return () => { tl.kill(); };
+      })
+      .catch(() => {});
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(t1);
+      anims.forEach((a) => a.cancel());
+    };
   }, []);
 
   return (
@@ -69,7 +86,7 @@ export default function Preloader() {
         </svg>
         <div className="flex items-baseline justify-between t-data">
           <span>Highveld to interface</span>
-          <span ref={count}>000</span>
+          <span ref={countRef}>000</span>
         </div>
       </div>
     </div>

@@ -50,15 +50,18 @@ async function main() {
     const errors: string[] = [];
     for (const [vpName, vp] of Object.entries(VIEWPORTS)) {
       const ctx = await browser.newContext({ ...vp });
-      await ctx.addInitScript(() => {
-        try { sessionStorage.setItem("kn-intro", "1"); } catch {}
-      });
+      // (string form: tsx would otherwise inject helpers the page doesn't have)
+      // containers report 2 cores, which trips the low-power CSS fallback; --webgl forces the shader
+      await ctx.addInitScript(
+        `try { sessionStorage.setItem("kn-intro", "1"); } catch (e) {}` +
+          (argv.includes("--webgl") ? `Object.defineProperty(navigator, "hardwareConcurrency", { get: () => 8 });` : ""),
+      );
       for (const route of routes) {
         const page = await ctx.newPage();
         page.on("console", (m) => m.type() === "error" && errors.push(`[${vpName} ${route}] ${m.text()}`));
         page.on("pageerror", (e) => errors.push(`[${vpName} ${route}] pageerror ${e.message}`));
         await page.goto(`http://localhost:${PORT}${route}`, { waitUntil: "networkidle" });
-        await page.waitForTimeout(2500);
+        await page.waitForTimeout(argv.includes("--webgl") ? 5000 : 2500);
         const slug = route === "/" ? "home" : route.replace(/\//g, "_").replace(/^_/, "");
         if (full) {
           await page.screenshot({ path: path.join(out, `${browserName}-${vpName}-${slug}-full.png`), fullPage: true });

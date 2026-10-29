@@ -23,3 +23,15 @@ export function isLowPower() {
   if (nav.hardwareConcurrency !== undefined && nav.hardwareConcurrency < 4) return true;
   return false;
 }
+
+/** Run after the page settles (keeps scroll-driven setup out of the critical start-up window). */
+export function whenIdle(cb: () => void, timeout = 2000) {
+  if (typeof window === "undefined") return () => {};
+  const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (n: number) => void };
+  if (w.requestIdleCallback) {
+    const id = w.requestIdleCallback(cb, { timeout });
+    return () => w.cancelIdleCallback?.(id);
+  }
+  const t = setTimeout(cb, 300);
+  return () => clearTimeout(t);
+}

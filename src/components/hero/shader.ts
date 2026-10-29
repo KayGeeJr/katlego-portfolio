@@ -73,23 +73,27 @@ const vec3 JAC    = vec3(0.608, 0.490, 1.0);
 
 vec3 sky(float t) {
   // t: 0 at the horizon -> 1 at the zenith
-  vec3 c = mix(OCHRE, DUSK, smoothstep(0.0, 0.22, t));
-  c = mix(c, EARTH, smoothstep(0.18, 0.5, t));
-  c = mix(c, NIGHT, smoothstep(0.42, 0.9, t));
+  vec3 c = mix(OCHRE, DUSK, smoothstep(0.0, 0.12, t));
+  c = mix(c, EARTH, smoothstep(0.12, 0.42, t));
+  c = mix(c, NIGHT, smoothstep(0.36, 0.85, t));
   return c;
 }
 
-// Stepped diamond lattice: nested diamonds whose edges are quantised into stairs.
+// Stepped diamond lattice: concentric diamonds built from stair-steps (no smooth diagonals),
+// drawn as the boundaries between quantised Manhattan levels.
 float lattice(vec2 p, float density) {
   vec2 g = p * density;
-  vec2 cell = fract(g) - 0.5;
-  vec2 a = abs(cell);
-  vec2 s = floor(a * 7.0) / 7.0;          // the "steps"
-  float d = s.x + s.y;                     // Manhattan diamond
-  float rings = abs(fract(d * 2.5) - 0.5);
-  float edge = 1.0 - smoothstep(0.035, 0.07, rings);
-  float frame = 1.0 - smoothstep(0.012, 0.03, min(0.5 - a.x, 0.5 - a.y));
-  return max(edge, frame * 0.8);
+  vec2 a = abs(fract(g) - 0.5) * 2.0;     // 0 at the cell centre, 1 at its edge
+  const float n = 7.0;                     // steps per half-cell
+  vec2 q = a * n;
+  vec2 i = floor(q);
+  vec2 f = fract(q);
+  float L = i.x + i.y;                     // quantised Manhattan level
+  float ring = (1.0 - step(0.5, mod(L, 3.0))) * step(0.5, L) * step(L, n);
+  float w = 0.16;
+  float e = max(1.0 - smoothstep(0.0, w, f.x), 1.0 - smoothstep(0.0, w, f.y)) * ring;
+  float frame = 1.0 - smoothstep(0.015, 0.035, min(1.0 - a.x, 1.0 - a.y));
+  return max(e, frame * 0.3);
 }
 
 void main() {
@@ -126,7 +130,7 @@ void main() {
 
   // lattice: faint over the land, lit up by the cursor lens
   float lat = lattice(p + vec2(0.0, t * 0.006), uDensity);
-  float latMask = land * 0.06 + lens * 0.75;
+  float latMask = land * 0.07 + lens * 0.6;
   vec3 latCol = mix(OCHRE, JAC, smoothstep(0.08, 0.32, dm));
   col = mix(col, latCol, lat * latMask);
 
@@ -147,4 +151,4 @@ void main() {
 `;
 
 export type ShaderParams = { warp: number; grain: number; density: number; levels: number };
-export const defaultParams: ShaderParams = { warp: 1, grain: 0.7, density: 4.5, levels: 22 };
+export const defaultParams: ShaderParams = { warp: 0.9, grain: 0.7, density: 4.5, levels: 20 };

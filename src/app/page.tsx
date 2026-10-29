@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Hero from "@/components/sections/Hero";
 import Intro from "@/components/sections/Intro";
 import Journey from "@/components/sections/Journey";
@@ -17,19 +18,19 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Intro />
-      <Marquee items={["Diagnose before I code", "Engineer first", "Ship it clean", "Lowveld to Highveld"]} className="border-y border-line" />
-      <Journey />
-      <Services />
-      <Workflow />
-      <Skills />
+      <Suspense fallback={null}><Intro /></Suspense>
+      <Suspense fallback={null}><Marquee items={["Diagnose before I code", "Engineer first", "Ship it clean", "Lowveld to Highveld"]} className="border-y border-line" /></Suspense>
+      <Suspense fallback={null}><Journey /></Suspense>
+      <Suspense fallback={null}><Services /></Suspense>
+      <Suspense fallback={null}><Workflow /></Suspense>
+      <Suspense fallback={null}><Skills /></Suspense>
       <div className="wrap py-4"><Pattern cols={24} seed={5} /></div>
-      <Experience />
-      <Impact />
-      <Work />
-      <CaseStudies />
-      <Lab />
-      <Education />
+      <Suspense fallback={null}><Experience /></Suspense>
+      <Suspense fallback={null}><Impact /></Suspense>
+      <Suspense fallback={null}><Work /></Suspense>
+      <Suspense fallback={null}><CaseStudies /></Suspense>
+      <Suspense fallback={null}><Lab /></Suspense>
+      <Suspense fallback={null}><Education /></Suspense>
     </>
   );
 }

@@ -21,12 +21,23 @@ export default function SplitHeading({ as = "h2", className = "", children, id }
         duration: 1.1,
         stagger: 0.08,
         ease: "expo.out",
-        scrollTrigger: { trigger: el, start: "top 88%", once: true },
+        scrollTrigger: { trigger: el, start: "top 92%", once: true },
       });
     };
-    // wait for fonts so line breaks are measured with the real face
-    (document.fonts?.ready ?? Promise.resolve()).then(run);
+    // Split lazily, just before the heading scrolls in (keeps start-up main-thread work low),
+    // and only after fonts load so line breaks are measured with the real face.
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        (document.fonts?.ready ?? Promise.resolve()).then(run);
+      },
+      { rootMargin: "0px 0px 25% 0px" },
+    );
+    // headings already on screen at load animate immediately
+    io.observe(el);
     return () => {
+      io.disconnect();
       tween?.scrollTrigger?.kill();
       tween?.kill();
       split?.revert();

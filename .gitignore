@@ -6,5 +6,5 @@ captures/videos-raw
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
-audit/*.json
+audit/details.json
 shots
