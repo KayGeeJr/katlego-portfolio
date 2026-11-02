@@ -1,6 +1,6 @@
 # Awwwards submission pack
 
-Images are in `docs/awwwards/`. Re-shoot them after `npm run capture` so the work strip shows real screenshots.
+Images are in `docs/awwwards/` (taken from the CV site).
 
 ## Basics
 
