@@ -1,45 +1,28 @@
 # TODO: needs your input
 
-Search the code for `TODO(confirm)` too. Those markers are stripped from the public site automatically but stay in `src/data/projects.ts` until you fix them.
+## Before launch
 
-## Blocking before launch
+- [ ] **Create two Netlify sites from this repo** (see README → Deploy):
+  - CV site: env `NEXT_PUBLIC_VARIANT=cv`, `NEXT_PUBLIC_SITE_URL=https://<your-cv-domain>`
+  - Studio site: env `NEXT_PUBLIC_VARIANT=studio`, `NEXT_PUBLIC_SITE_URL=https://<your-studio-domain>`
+- [ ] **Studio quote form:** after the first studio deploy, check Netlify → Forms shows a form called `quote`, and turn on email notifications. On a host other than Netlify, the form falls back to opening a pre-filled email.
+- [ ] **Studio visibility:** the studio site is `noindex` (private, shared by link). For it to show up on Google, set `NEXT_PUBLIC_STUDIO_INDEX=1` on that Netlify site.
 
-- [ ] **Run the screenshot capture on your PC.** The cloud workspace's network allowlist blocked your project domains, so every project currently shows generated cover art.
-  ```bash
-  npx playwright install chromium   # first time only
-  npm run capture                   # ~5–8 min for all 12, plus 5 hover videos
-  ```
-  Then open `captures/contact-sheet.html` and check every frame. Re-run any project with `npm run capture -- --only <slug>`. Commit `public/projects/**` and `src/data/captures.json`.
-- [ ] **Production domain.** Set `NEXT_PUBLIC_SITE_URL` (Netlify/Vercel env var) or edit `site.url` in `src/data/site.ts`. It's used for canonical URLs, OG, sitemap and JSON-LD. Currently `https://katlegonkuna.netlify.app` (placeholder).
-- [ ] **Breathe (`breathe--hb.netlify.app`) doesn't resolve.** Also tried `breathe-hb`, `breathehb` and `breathe-health`. `name--site.netlify.app` is Netlify's *branch deploy* format, so the production URL is probably different. Send the right URL, update `url`, set `hidden: false`, and write its tagline, summary and highlights.
+## Content to confirm
 
-## Project facts to confirm (`src/data/projects.ts`)
+- [ ] **Groups:** Luxe Era is listed under *Client & brand sites*, and Breathe JHB, Solar Republic, Khula, Codeline Academy and Mokala Reserve under *Product & concept builds*. Move any that are real clients (`group` in `src/data/projects.ts`).
+- [ ] **Studio copy** (`src/data/studio.ts`): the services, process and reply time ("a couple of working days") are written as offers. Adjust them to what you actually provide (e.g. do you handle domains and hosting?).
+- [ ] **WhatsApp / phone** for the studio contact: send the number and I'll add a WhatsApp button.
+- [ ] **Journey (CV site):** the order is Nelspruit → Pretoria → Sandton → Kempton Park. Is Nelspruit where you grew up?
+- [ ] **Tadaa!, Rooted In Culture, Naked Kitchen, Coffee Canony:** dropped because there were no screenshots. To bring one back, add it to `projects.ts`, drop `shots-in/<slug>.png` and run `npm run import-shots`.
 
-| Project | What to confirm |
-|---|---|
-| All 12 | Your **role** (currently "Design & build") and **year** |
-| MB Communications | Stack (a `next-size-adjust` meta tag hints at Next.js but isn't conclusive). Is it the same company as your 2019–20 internship? |
-| The Royal Affair | Renders client-side, so only metadata was readable: write 2–3 real highlights after capture |
-| ANTI | Storefront (e-commerce) or brand/enquiry site? |
-| Tadaa! | Real client or concept? Note: its `og:image` points at `localhost:3000` on the live site |
-| Rooted In Culture | Only the title was readable: tagline, summary and highlights after capture |
-| Solar Republic, Khula, Codeline Academy, Mokala Reserve | Described as concept builds (they read like fictional brands). Correct me if any is a real client |
-| Naked Kitchen & Coffee Bar | Client-rendered: highlights after capture. Real café client? |
-| Coffee Canony | "Canony" spelled as in the site title. Should it be "Canopy"? |
-| Stacks | Only Next.js + Netlify were confirmed (tadaa, solar-republic, mokala). `npm run capture` writes detected tech clues to `captures/report.md` |
+## Testing to do on your PC
 
-## Personal details
-
-- [ ] **Phone number:** not on the CV, so it's not on the site. Add it to `site.ts` and the contact footer if you want it.
-- [ ] **Journey:** I kept the order you gave (Nelspruit → Pretoria → Sandton → Kempton Park) with CV facts per stop. Your Kempton Park internship (2019) predates Nelspruit (2020–23). Is Nelspruit where you grew up? If so, its note could say that.
-- [ ] **Headshot:** none is used (no stock photos, by design). Add a self-hosted photo if you'd like one in About.
-- [ ] **Source link:** if the repo goes public, add a "View source" link in the Lab's "taken apart" list.
-
-## Could not be done in the cloud workspace
-
-- [ ] **WebKit and Firefox testing.** Only Chromium is installed there and browser downloads are blocked. On your PC:
+- [ ] Safari/WebKit and Firefox screenshots (couldn't be installed in the cloud workspace):
   ```bash
   npx playwright install webkit firefox
-  npm run build && npm run shots -- --browser webkit --tag safari && npm run shots -- --browser firefox --tag firefox
+  npm run build:both
+  npm run shots -- --dir out-studio --browser webkit --tag safari-studio
+  npm run shots -- --dir out-cv --browser firefox --tag firefox-cv
   ```
-- [ ] **Lighthouse on real hardware:** after deploy, run PageSpeed Insights on the live URL (the local scores came from a 2-core sandbox; see `audit/report.md`).
+- [ ] PageSpeed Insights on both live URLs.

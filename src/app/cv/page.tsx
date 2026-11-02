@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { site, cvSummary, skills, experience, differentiators, education } from "@/data/site";
 import PrintButton from "./PrintButton";
+import { notFound } from "next/navigation";
+import { isStudio } from "@/lib/variant";
 
 export const metadata: Metadata = {
   title: "Resume",
@@ -9,6 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default function CvPage() {
+  // The resume only exists on the CV site (the studio build also deletes this page after export).
+  if (isStudio) notFound();
   return (
     <div className="cv wrap max-w-[1100px] pb-[var(--section-y)] pt-32 md:pt-40">
       <header className="flex flex-col gap-8 border-b border-line pb-10 md:flex-row md:items-end md:justify-between">

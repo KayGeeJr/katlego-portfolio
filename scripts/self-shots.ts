@@ -22,6 +22,7 @@ const browserName = opt("browser", "chromium")!;
 const full = argv.includes("--full");
 const PORT = Number(opt("port", "3100"));
 const out = path.resolve(__dirname, "..", "shots", tag);
+// --dir out-cv / out-studio to shoot a specific build
 
 const VIEWPORTS = {
   desktop: { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 },
@@ -42,7 +43,7 @@ async function waitFor(url: string, ms = 20000) {
 
 async function main() {
   await fs.mkdir(out, { recursive: true });
-  const server = spawn(process.platform === "win32" ? "npx.cmd" : "npx", ["serve@14", "out", "-l", String(PORT), "--no-clipboard"], { stdio: "ignore", cwd: path.resolve(__dirname, "..") });
+  const server = spawn(process.platform === "win32" ? "npx.cmd" : "npx", ["serve@14", opt("dir", "out")!, "-l", String(PORT), "--no-clipboard"], { detached: process.platform !== "win32", stdio: "ignore", cwd: path.resolve(__dirname, "..") });
   try {
     await waitFor(`http://localhost:${PORT}/`);
     const types: Record<string, BrowserType> = { chromium, firefox, webkit };
@@ -88,7 +89,7 @@ async function main() {
     console.log(errors.length ? `console errors:\n${errors.join("\n")}` : "no console errors");
     console.log(`shots → ${out}`);
   } finally {
-    server.kill();
+    try { if (process.platform !== "win32" && server.pid) process.kill(-server.pid); else server.kill(); } catch { server.kill(); }
   }
 }
 main().catch((e) => {

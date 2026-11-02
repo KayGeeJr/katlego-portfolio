@@ -8,3 +8,6 @@ next-env.d.ts
 .DS_Store
 audit/details.json
 shots
+shots-in
+out-cv
+out-studio

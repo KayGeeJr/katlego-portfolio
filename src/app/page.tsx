@@ -13,24 +13,49 @@ import Lab from "@/components/lab/Lab";
 import Education from "@/components/sections/Education";
 import Marquee from "@/components/ui/Marquee";
 import Pattern from "@/components/ui/Pattern";
+import { isStudio } from "@/lib/variant";
 
-export default function Home() {
+/** Each section hydrates in its own Suspense chunk, so start-up work is split into small tasks. */
+const S = ({ children }: { children: React.ReactNode }) => <Suspense fallback={null}>{children}</Suspense>;
+
+function StudioHome() {
+  // For clients: the work first, then what I build, how we'll work, and the lab. No employer detail.
   return (
     <>
       <Hero />
-      <Suspense fallback={null}><Intro /></Suspense>
-      <Suspense fallback={null}><Marquee items={["Diagnose before I code", "Engineer first", "Ship it clean", "Lowveld to Highveld"]} className="border-y border-line" /></Suspense>
-      <Suspense fallback={null}><Journey /></Suspense>
-      <Suspense fallback={null}><Services /></Suspense>
-      <Suspense fallback={null}><Workflow /></Suspense>
-      <Suspense fallback={null}><Skills /></Suspense>
+      <S><Intro /></S>
+      <S><Work /></S>
+      <S><Marquee items={["Design before code", "Phone-first", "Made in Gauteng", "Fast and findable"]} className="border-y border-line" /></S>
+      <S><Services /></S>
+      <S><Workflow /></S>
       <div className="wrap py-4"><Pattern cols={24} seed={5} /></div>
-      <Suspense fallback={null}><Experience /></Suspense>
-      <Suspense fallback={null}><Impact /></Suspense>
-      <Suspense fallback={null}><Work /></Suspense>
-      <Suspense fallback={null}><CaseStudies /></Suspense>
-      <Suspense fallback={null}><Lab /></Suspense>
-      <Suspense fallback={null}><Education /></Suspense>
+      <S><Lab /></S>
     </>
   );
+}
+
+function CvHome() {
+  // For recruiters and employers: the full professional story, fintech included.
+  return (
+    <>
+      <Hero />
+      <S><Intro /></S>
+      <S><Marquee items={["Diagnose before I code", "Engineer first", "Ship it clean", "Lowveld to Highveld"]} className="border-y border-line" /></S>
+      <S><Journey /></S>
+      <S><Services /></S>
+      <S><Workflow /></S>
+      <S><Skills /></S>
+      <div className="wrap py-4"><Pattern cols={24} seed={5} /></div>
+      <S><Experience /></S>
+      <S><Impact /></S>
+      <S><Work /></S>
+      <S><CaseStudies /></S>
+      <S><Lab /></S>
+      <S><Education /></S>
+    </>
+  );
+}
+
+export default function Home() {
+  return isStudio ? <StudioHome /> : <CvHome />;
 }

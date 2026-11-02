@@ -21,7 +21,7 @@ const anatomy = [
   { k: "Motion", v: "GSAP, ScrollTrigger and SplitText on Lenis smooth scroll. One easing family: expo-out." },
   { k: "Type", v: "Unbounded, Hanken Grotesk and JetBrains Mono, self-hosted and subset to Latin." },
   { k: "Build", v: "Next.js static export, TypeScript, Tailwind CSS. No runtime server." },
-  { k: "Shots", v: "A Playwright pipeline captures every project at two viewports and encodes AVIF/WebP." },
+  { k: "Shots", v: "Every project image is encoded to AVIF and WebP with a blur placeholder; a Playwright pipeline can capture live sites automatically." },
 ];
 
 export default function Lab() {

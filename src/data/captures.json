@@ -1,1 +1,371 @@
-{}
+{
+  "mb-communications": {
+    "slug": "mb-communications",
+    "url": "https://mbcommunications.co.za",
+    "status": "ok",
+    "checkedAt": "2026-11-02T08:12:11.581Z",
+    "colors": [
+      "#787888"
+    ],
+    "fonts": [],
+    "tech": [],
+    "frames": [
+      {
+        "key": "mockup",
+        "label": "Desktop and mobile",
+        "width": 3200,
+        "height": 1720,
+        "sources": [
+          {
+            "avif": "/projects/mb-communications/mockup-720.avif",
+            "webp": "/projects/mb-communications/mockup-720.webp",
+            "w": 720
+          },
+          {
+            "avif": "/projects/mb-communications/mockup-1280.avif",
+            "webp": "/projects/mb-communications/mockup-1280.webp",
+            "w": 1280
+          },
+          {
+            "avif": "/projects/mb-communications/mockup-1920.avif",
+            "webp": "/projects/mb-communications/mockup-1920.webp",
+            "w": 1920
+          }
+        ],
+        "blur": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAABQAgCdASoYAA0AA4BaJZwAAudVRs449fOFMAAA/ubOnA7bcmzB+QAQAnUDqDx3y7RD2cD6/w7wwxrk6P7gKtItQzZlb2T5YgYuJyL/71I7aCXlPwXpJHdUAAA=",
+        "score": 100
+      }
+    ],
+    "chosen": [
+      "mockup"
+    ]
+  },
+  "the-royal-affair": {
+    "slug": "the-royal-affair",
+    "url": "https://theroyalaffair.co.za",
+    "status": "ok",
+    "checkedAt": "2026-11-02T08:13:17.677Z",
+    "colors": [
+      "#f8e8e8"
+    ],
+    "fonts": [],
+    "tech": [],
+    "frames": [
+      {
+        "key": "mockup",
+        "label": "Desktop and mobile",
+        "width": 3200,
+        "height": 1720,
+        "sources": [
+          {
+            "avif": "/projects/the-royal-affair/mockup-720.avif",
+            "webp": "/projects/the-royal-affair/mockup-720.webp",
+            "w": 720
+          },
+          {
+            "avif": "/projects/the-royal-affair/mockup-1280.avif",
+            "webp": "/projects/the-royal-affair/mockup-1280.webp",
+            "w": 1280
+          },
+          {
+            "avif": "/projects/the-royal-affair/mockup-1920.avif",
+            "webp": "/projects/the-royal-affair/mockup-1920.webp",
+            "w": 1920
+          }
+        ],
+        "blur": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAAAQBACdASoYAA0APu1krU2ppaSiMAgBMB2JZwDG9CHfNRSz2tJFTa+OgADif1Y8gq/6yrvdkpFD8xhqsWNbw7Z/qjp6mavqC/WZ0RtmJu9j5oI+3+tRPorD9xdLpe6u6/deqGlOnLG1CKwE4BUt7bqaeFPvAAAA",
+        "score": 100
+      }
+    ],
+    "chosen": [
+      "mockup"
+    ]
+  },
+  "anti": {
+    "slug": "anti",
+    "url": "https://shopanti.online",
+    "status": "ok",
+    "checkedAt": "2026-11-02T08:10:40.060Z",
+    "colors": [
+      "#181818"
+    ],
+    "fonts": [],
+    "tech": [],
+    "frames": [
+      {
+        "key": "mockup",
+        "label": "Desktop and mobile",
+        "width": 3200,
+        "height": 1720,
+        "sources": [
+          {
+            "avif": "/projects/anti/mockup-720.avif",
+            "webp": "/projects/anti/mockup-720.webp",
+            "w": 720
+          },
+          {
+            "avif": "/projects/anti/mockup-1280.avif",
+            "webp": "/projects/anti/mockup-1280.webp",
+            "w": 1280
+          },
+          {
+            "avif": "/projects/anti/mockup-1920.avif",
+            "webp": "/projects/anti/mockup-1920.webp",
+            "w": 1920
+          }
+        ],
+        "blur": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAABQAgCdASoYAA0AA4BaJZwAAudIzyP8+4iKvIAA/vMj6ZqSEiLg8uyJ+OXGxZcijZip9epdS8wtQAmSrFu/Otoub9agZuLskMmhfVZ2Laa1U7Q1srAd0hTf2/rKVqbAAAA=",
+        "score": 100
+      }
+    ],
+    "chosen": [
+      "mockup"
+    ]
+  },
+  "luxe-era": {
+    "slug": "luxe-era",
+    "url": "https://luxe-era.netlify.app",
+    "status": "ok",
+    "checkedAt": "2026-11-02T08:11:54.041Z",
+    "colors": [
+      "#f8f8f8"
+    ],
+    "fonts": [],
+    "tech": [],
+    "frames": [
+      {
+        "key": "mockup",
+        "label": "Desktop and mobile",
+        "width": 3200,
+        "height": 1720,
+        "sources": [
+          {
+            "avif": "/projects/luxe-era/mockup-720.avif",
+            "webp": "/projects/luxe-era/mockup-720.webp",
+            "w": 720
+          },
+          {
+            "avif": "/projects/luxe-era/mockup-1280.avif",
+            "webp": "/projects/luxe-era/mockup-1280.webp",
+            "w": 1280
+          },
+          {
+            "avif": "/projects/luxe-era/mockup-1920.avif",
+            "webp": "/projects/luxe-era/mockup-1920.webp",
+            "w": 1920
+          }
+        ],
+        "blur": "data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAABQBACdASoYAA0APu1iqk2ppaQiMAgBMB2JZQCw7Yte3xQkPo52/7rDGAAAAPa+0PQBs9rR7YMigAh82PxdZdpNPK21jt8ZzRx0m5I1kpRxQdutZtduOM3M7eXUinXXWzi4Wfu2dF9US5/3CSWbXnBvEd/2/+rPz4xIHhkfUVLH3EePHEj4Ezrzs7SrueivpuuFyWzHIc34BN54m5npI72iFV31gAAA",
+        "score": 100
+      }
+    ],
+    "chosen": [
+      "mockup"
+    ]
+  },
+  "breathe": {
+    "slug": "breathe",
+    "url": "https://breathe-jhb.netlify.app",
+    "status": "ok",
+    "checkedAt": "2026-11-02T08:10:55.497Z",
+    "colors": [
+      "#f8e8e8"
+    ],
+    "fonts": [],
+    "tech": [],
+    "frames": [
+      {
+        "key": "mockup",
+        "label": "Desktop and mobile",
+        "width": 3200,
+        "height": 1720,
+        "sources": [
+          {
+            "avif": "/projects/breathe/mockup-720.avif",
+            "webp": "/projects/breathe/mockup-720.webp",
+            "w": 720
+          },
+          {
+            "avif": "/projects/breathe/mockup-1280.avif",
+            "webp": "/projects/breathe/mockup-1280.webp",
+            "w": 1280
+          },
+          {
+            "avif": "/projects/breathe/mockup-1920.avif",
+            "webp": "/projects/breathe/mockup-1920.webp",
+            "w": 1920
+          }
+        ],
+        "blur": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADwAwCdASoYAA0APu1mqk2ppaQiMAgBMB2JZwDImCHe2jvcLf7Yon04AOJ/VjyCr/rKu92She2AJQHnnb6JEaYhAQvhJ3U1igbu4lvWa7d1Q2hwR7A6v7+isP1k2c1WsbIC8LRbNCD2hPmnDdnib1GdJUZPgf8A+k7S4zD+PE2++wAA",
+        "score": 100
+      }
+    ],
+    "chosen": [
+      "mockup"
+    ]
+  },
+  "solar-republic": {
+    "slug": "solar-republic",
+    "url": "https://solar-republic.netlify.app",
+    "status": "ok",
+    "checkedAt": "2026-11-02T08:13:00.659Z",
+    "colors": [
+      "#f8f8f8"
+    ],
+    "fonts": [],
+    "tech": [],
+    "frames": [
+      {
+        "key": "mockup",
+        "label": "Desktop and mobile",
+        "width": 3200,
+        "height": 1720,
+        "sources": [
+          {
+            "avif": "/projects/solar-republic/mockup-720.avif",
+            "webp": "/projects/solar-republic/mockup-720.webp",
+            "w": 720
+          },
+          {
+            "avif": "/projects/solar-republic/mockup-1280.avif",
+            "webp": "/projects/solar-republic/mockup-1280.webp",
+            "w": 1280
+          },
+          {
+            "avif": "/projects/solar-republic/mockup-1920.avif",
+            "webp": "/projects/solar-republic/mockup-1920.webp",
+            "w": 1920
+          }
+        ],
+        "blur": "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAADQAwCdASoYAA0APu1krU2ppaSiMAgBMB2JZwAAW+jJjU8jEvEW5ggA9r7TDeOyT27WoGAmt3Xea/mt2FZkeQLWGNlFUI9+/69ZiNN1IZSG5uf/3/92yxb8021PSdXzyf5TEC8BgWvBfILkQ0MVWnJh2SlGhbID28oQ5+4ABCgAAA==",
+        "score": 100
+      }
+    ],
+    "chosen": [
+      "mockup"
+    ]
+  },
+  "khula-stokvel": {
+    "slug": "khula-stokvel",
+    "url": "https://khula-stokvel.netlify.app",
+    "status": "ok",
+    "checkedAt": "2026-11-02T08:11:31.084Z",
+    "colors": [
+      "#080808"
+    ],
+    "fonts": [],
+    "tech": [],
+    "frames": [
+      {
+        "key": "mockup",
+        "label": "Desktop and mobile",
+        "width": 3200,
+        "height": 1720,
+        "sources": [
+          {
+            "avif": "/projects/khula-stokvel/mockup-720.avif",
+            "webp": "/projects/khula-stokvel/mockup-720.webp",
+            "w": 720
+          },
+          {
+            "avif": "/projects/khula-stokvel/mockup-1280.avif",
+            "webp": "/projects/khula-stokvel/mockup-1280.webp",
+            "w": 1280
+          },
+          {
+            "avif": "/projects/khula-stokvel/mockup-1920.avif",
+            "webp": "/projects/khula-stokvel/mockup-1920.webp",
+            "w": 1920
+          }
+        ],
+        "blur": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAABwAwCdASoYAA0APu1iqU2ppaQiMAgBMB2JZ2DrWmSTjjeNYAAA/vA8ulJjqgulD7KHTXWYRjthOHpgSouRi72ECTRJQXGUoAA=",
+        "score": 100
+      }
+    ],
+    "chosen": [
+      "mockup"
+    ]
+  },
+  "codeline-academy": {
+    "slug": "codeline-academy",
+    "url": "https://codeline-academy.netlify.app",
+    "status": "ok",
+    "checkedAt": "2026-11-02T08:11:13.681Z",
+    "colors": [
+      "#f8f8f8"
+    ],
+    "fonts": [],
+    "tech": [],
+    "frames": [
+      {
+        "key": "mockup",
+        "label": "Desktop and mobile",
+        "width": 3200,
+        "height": 1720,
+        "sources": [
+          {
+            "avif": "/projects/codeline-academy/mockup-720.avif",
+            "webp": "/projects/codeline-academy/mockup-720.webp",
+            "w": 720
+          },
+          {
+            "avif": "/projects/codeline-academy/mockup-1280.avif",
+            "webp": "/projects/codeline-academy/mockup-1280.webp",
+            "w": 1280
+          },
+          {
+            "avif": "/projects/codeline-academy/mockup-1920.avif",
+            "webp": "/projects/codeline-academy/mockup-1920.webp",
+            "w": 1920
+          }
+        ],
+        "blur": "data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAADwAwCdASoYAA0APu1iqU2ppaQiMAgBMB2JZwAAXBW8MyT+Md1uUOUgAOJ+0w3jq6Gkb82GaGk4d4QO/1fH3ookL9xH6i27MevvVAzNBivXyAHFa+Hrgv2O89ISK/f2L/1jmMONazhfq3fnL1H04VGrlKjsrkrX8YEx8mh/gf7NnuMLuclSvpbkRMGhpyyNHmUcPru5nnP2VDAwAAA=",
+        "score": 100
+      }
+    ],
+    "chosen": [
+      "mockup"
+    ]
+  },
+  "mokala-reserve": {
+    "slug": "mokala-reserve",
+    "url": "https://mokala-reserve.netlify.app",
+    "status": "ok",
+    "checkedAt": "2026-11-02T08:12:42.120Z",
+    "colors": [
+      "#080818"
+    ],
+    "fonts": [],
+    "tech": [],
+    "frames": [
+      {
+        "key": "mockup",
+        "label": "Desktop and mobile",
+        "width": 3200,
+        "height": 1720,
+        "sources": [
+          {
+            "avif": "/projects/mokala-reserve/mockup-720.avif",
+            "webp": "/projects/mokala-reserve/mockup-720.webp",
+            "w": 720
+          },
+          {
+            "avif": "/projects/mokala-reserve/mockup-1280.avif",
+            "webp": "/projects/mokala-reserve/mockup-1280.webp",
+            "w": 1280
+          },
+          {
+            "avif": "/projects/mokala-reserve/mockup-1920.avif",
+            "webp": "/projects/mokala-reserve/mockup-1920.webp",
+            "w": 1920
+          }
+        ],
+        "blur": "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAADQAwCdASoYAA0APu1kq04ppaQiMAgBMB2JQBOgA9I6gBLlXktwJwAA/sG+FKNRrCgrv0ha/MXtLApWqkDQfwIT7TnEOS7YjGPLfBv8wM/3D2jvO6FVOIkXe40qnAa4JK1Y3XYzzEMurE0ReansRu9uzFYuWPwiQjvA5hPAAAA=",
+        "score": 100
+      }
+    ],
+    "chosen": [
+      "mockup"
+    ]
+  }
+}

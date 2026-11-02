@@ -1,4 +1,9 @@
-import { intro, differentiators } from "@/data/site";
+import { intro as cvIntro, differentiators } from "@/data/site";
+import { studioIntro } from "@/data/studio";
+import { isStudio } from "@/lib/variant";
+
+const intro = isStudio ? studioIntro : cvIntro;
+const points = isStudio ? studioIntro.points : differentiators;
 
 export default function Intro() {
   return (
@@ -20,7 +25,7 @@ export default function Intro() {
             ))}
           </div>
           <ul className="mt-16 grid gap-px overflow-hidden border border-line bg-line md:grid-cols-3">
-            {differentiators.map((d) => (
+            {points.map((d) => (
               <li key={d.title} className="bg-bg p-6">
                 <h3 className="mb-3 text-[1.0625rem] font-semibold">{d.title}</h3>
                 <p className="text-[0.9375rem] text-muted">{d.body}</p>

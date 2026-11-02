@@ -87,6 +87,6 @@ export function ProjectCover({ project, className = "", variant = "card" }: { pr
 export default function ProjectMedia({ project, frameKey = "desktop-hero", sizes = "(min-width: 1024px) 40vw, 85vw", priority = false, variant = "card", className = "" }: { project: Project; frameKey?: string; sizes?: string; priority?: boolean; variant?: "card" | "wide"; className?: string }) {
   const cap = getCapture(project.slug);
   const frame = cap?.frames.find((f) => f.key === frameKey) ?? cap?.frames.find((f) => f.key === cap.chosen[0]);
-  if (frame) return <FramePicture frame={frame} sizes={sizes} priority={priority} alt={`Screenshot of the ${project.name} website`} className={className} fit="top" />;
+  if (frame) return <FramePicture frame={frame} sizes={sizes} priority={priority} alt={`The ${project.name} website on desktop and mobile`} className={className} fit={frame.key === "mockup" ? "cover" : "top"} />;
   return <ProjectCover project={project} variant={variant} className={className} />;
 }

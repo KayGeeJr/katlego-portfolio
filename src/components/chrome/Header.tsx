@@ -5,15 +5,23 @@ import { usePathname } from "next/navigation";
 import TransitionLink from "./TransitionLink";
 import Magnetic from "./Magnetic";
 import Clock from "./Clock";
+import { isStudio } from "@/lib/variant";
 import { setPrefsAnimated, setPrefs, usePrefs } from "@/lib/prefs";
 import { resumeAudio, tick } from "@/lib/sound";
 
-const nav = [
-  { href: "/#work", label: "Work" },
-  { href: "/#workflow", label: "Process" },
-  { href: "/#lab", label: "Lab" },
-  { href: "/cv", label: "CV" },
-];
+const nav = isStudio
+  ? [
+      { href: "/#work", label: "Work" },
+      { href: "/#services", label: "Services" },
+      { href: "/#workflow", label: "Process" },
+      { href: "/#lab", label: "Lab" },
+    ]
+  : [
+      { href: "/#work", label: "Work" },
+      { href: "/#experience", label: "Experience" },
+      { href: "/#fintech", label: "Fintech" },
+      { href: "/cv", label: "CV" },
+    ];
 
 export function ThemeToggle() {
   const { theme } = usePrefs();
@@ -141,7 +149,7 @@ export default function Header() {
             <span className="hidden md:block">
               <Magnetic>
                 <a href="#contact" className="btn !h-11 ml-1">
-                  Contact
+                  {isStudio ? "Get a quote" : "Contact"}
                 </a>
               </Magnetic>
             </span>
@@ -170,7 +178,7 @@ export default function Header() {
       >
         <nav aria-label="Mobile">
           <ul className="flex flex-col gap-2">
-            {[...nav, { href: "/#contact", label: "Contact" }, { href: "/projects", label: "All projects" }].map((n, i) => (
+            {[...nav, { href: "/#contact", label: isStudio ? "Get a quote" : "Contact" }].map((n, i) => (
               <li key={n.href} style={{ animation: open ? `menu-in .6s ${i * 0.05}s var(--ease-out) both` : undefined }}>
                 <TransitionLink href={n.href} onClick={() => setOpen(false)} className="t-h2 block py-1">
                   {n.label}

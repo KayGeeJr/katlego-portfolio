@@ -1,11 +1,15 @@
-import { services } from "@/data/site";
+import { services as cvServices } from "@/data/site";
+import { studioServices } from "@/data/studio";
+import { isStudio } from "@/lib/variant";
+
+const services = isStudio ? studioServices : cvServices;
 import SectionHead from "@/components/ui/SectionHead";
 
 export default function Services() {
   return (
     <section id="services" aria-labelledby="services-title" className="section border-t border-line">
       <div className="wrap">
-        <SectionHead tag="What I do" id="services-title" title="Three things I'm good at, in the order I learned them." />
+        <SectionHead tag={isStudio ? "Services" : "What I do"} id="services-title" title={isStudio ? "What I can build for you." : "Three things I'm good at, in the order I learned them."} />
         <ol className="border-t border-line">
           {services.map((s, i) => (
             <li key={s.title} className="group relative grid gap-6 border-b border-line py-10 md:grid-cols-12 md:py-14" data-reveal>

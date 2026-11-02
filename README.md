@@ -1,11 +1,20 @@
-# Katlego Nkuna: portfolio
+# Katlego Nkuna: two sites, one codebase
 
-**Highveld to Interface.** A one-page portfolio with project detail pages, built with Next.js (static export), TypeScript, Tailwind CSS 4, GSAP + Lenis and an OGL/GLSL hero.
+**Highveld to Interface.** Same look and feel, two audiences:
 
-- Design rationale: [`docs/design-rationale.md`](docs/design-rationale.md)
+| | **CV site** (`NEXT_PUBLIC_VARIANT=cv`, default) | **Studio site** (`NEXT_PUBLIC_VARIANT=studio`) |
+|---|---|---|
+| For | Recruiters and employers | Private clients |
+| Sections | Hero, About, Journey, What I do, AI-native workflow, Stack, Experience, Impact, Live sites, **Fintech case studies (NDA)**, Lab, Education, Contact | Hero, About, **Live sites first**, Services, How we'll work, Lab, **Quote form** |
+| Extras | `/cv` printable resume + PDF download, LinkedIn, indexed by search engines | No CV, no bank or fintech detail, `noindex` by default |
+
+On both sites, every project card opens the **live site directly** in a new tab. There are no in-between detail pages.
+
+Built with Next.js (static export), TypeScript, Tailwind CSS 4, GSAP + Lenis and an OGL/GLSL hero.
+
 - Things that need your input: [`TODO.md`](TODO.md)
-- Latest audit: [`audit/report.md`](audit/report.md)
-- Awwwards pack: [`docs/awwwards-pack.md`](docs/awwwards-pack.md)
+- Design rationale: [`docs/design-rationale.md`](docs/design-rationale.md)
+- Audits: [`audit/report-cv.md`](audit/report-cv.md), [`audit/report-studio.md`](audit/report-studio.md)
 
 ## Run it
 
@@ -13,33 +22,36 @@ Requires Node 20+ (22 recommended).
 
 ```bash
 npm install
-npm run dev            # http://localhost:3000
-npm run build          # static export → ./out
-npm start              # serve ./out on :3000
+npm run dev              # CV site at http://localhost:3000
+npm run dev:studio       # Studio site at http://localhost:3000
+
+npm run build:both       # → out-cv/ and out-studio/
+npm run start:cv         # serve out-cv on :3000
+npm run start:studio     # serve out-studio on :3001
 ```
 
-## Deploy
+## Deploy (two Netlify sites from one repo)
 
-The build is a fully static site in `out/`.
+Create **two** Netlify sites that point at this same repository. `netlify.toml` already sets the build command (`npm run build`) and publish folder (`out`). The only difference is the environment variables, set per site in *Site configuration → Environment variables*:
 
-- **Netlify:** connect the repo. `netlify.toml` already sets `npm run build` → `out`, cache headers and a `/resume → /cv` redirect. Or drag the `out/` folder onto app.netlify.com/drop.
-- **Vercel:** import the repo, framework "Next.js", no settings needed.
-- Set the env var `NEXT_PUBLIC_SITE_URL=https://your-domain` so canonical URLs, OG tags, the sitemap and JSON-LD point at the real domain.
+| Netlify site | `NEXT_PUBLIC_VARIANT` | `NEXT_PUBLIC_SITE_URL` |
+|---|---|---|
+| CV | `cv` | `https://your-cv-domain` |
+| Studio | `studio` | `https://your-studio-domain` |
 
-## Update projects
+Optional: `NEXT_PUBLIC_STUDIO_INDEX=1` lets search engines index the studio site.
 
-Everything about projects lives in **one file: `src/data/projects.ts`**.
+The studio quote form uses **Netlify Forms** (it's detected automatically from the static HTML; enable notifications under *Forms*). On another host it falls back to opening a pre-filled email.
 
-1. Add or edit an entry (`slug`, `name`, `url`, `group: "client" | "concept"`, `tagline`, `summary`, `highlights`, `role`, `stack`, `palette`, `motif`; `video: true` records a hover preview; `hidden: true` keeps it off the site).
-2. Capture it:
-   ```bash
-   npx playwright install chromium        # first time on a machine
-   npm run capture -- --only <slug>       # or `npm run capture` for all
-   ```
-3. Review `captures/contact-sheet.html` (also `.png` and `report.md`): URL status, title, meta description, detected fonts, colours, tech clues, and which 3 frames were chosen.
-4. `npm run build`. Pages, the work strip, the index, the sitemap and next-project links all update automatically.
+Prefer Vercel? Create two projects with the same env vars and framework "Next.js".
 
-Bio, skills, experience, case studies and education are in `src/data/site.ts`. Every fact there comes from the CV, so keep it that way.
+## Update the sites
+
+- **Projects (both sites):** `src/data/projects.ts`, one entry per site. The order in the file is the order on the page.
+- **Project images:** drop a screenshot at `shots-in/<slug>.png`, then run `npm run import-shots`. It trims the caption band from the 3200×2100 mockups and encodes AVIF + WebP (720/1280/1920w) plus a blur placeholder. `--crop-top 0` keeps the whole image. You can also capture live sites with `npm run capture -- --only <slug>` (see below).
+- **CV content:** `src/data/site.ts`. Every fact there comes from the CV, so keep it that way.
+- **Studio copy:** `src/data/studio.ts` (hero, about, services, process, contact).
+- **OG images:** `npm run build:cv && npm run og`, then rebuild. This writes `og.png` for the CV site and `og-studio.png` for the studio.
 
 ### The capture script (`scripts/capture.ts`)
 
@@ -57,18 +69,19 @@ Flags: `--only a,b` · `--no-video` · `--headed` · `--concurrency 2` · `--map
 ## Quality tooling
 
 ```bash
-npm run build
-npm run audit                     # Lighthouse desktop+mobile and axe (dark + light) → audit/report.md
-npm run shots -- --tag review     # screenshots of every home section, desktop + mobile → shots/review
-npm run shots -- --routes /,/projects,/cv --full --browser webkit   # after `npx playwright install webkit`
-npm run og                        # regenerate favicons + the 1200×630 OG cover (a real frame of the shader)
+npm run build:both
+npm run audit -- --dir out-cv --report report-cv.md          # Lighthouse desktop+mobile and axe (dark + light)
+npm run audit -- --dir out-studio --routes / --report report-studio.md
+npm run shots -- --dir out-studio --tag review               # screenshots of every home section, desktop + mobile
+npm run shots -- --dir out-cv --browser webkit               # after `npx playwright install webkit`
+npm run og                                                   # favicons + both 1200×630 OG covers (a real frame of the shader)
 ```
 
 ## Structure
 
 ```
 src/
-  app/                 routes: /, /projects, /project/[slug], /cv, 404, sitemap, robots
+  app/                 routes: /, /cv (CV site only), 404, sitemap, robots
   components/
     chrome/            header, preloader, cursor, magnetic, Lenis, scroll FX, transitions, negative mode
     hero/              shader.ts (GLSL), ShaderCanvas (OGL), CSS fallback, lazy loader
@@ -76,9 +89,10 @@ src/
     lab/               Lab shell + client experiments
     work/              project media (captures or generated covers), pin, hover video
     ui/                SectionHead, SplitHeading, Pattern, Marquee
-  data/                projects.ts (single source for projects), site.ts (CV content), captures.json (generated)
+  data/                projects.ts (all sites), site.ts (CV content), studio.ts (client copy), captures.json (generated)
+  lib/variant.ts       which site is being built (cv | studio)
   lib/                 motion tokens, gsap setup, pattern generator, prefs, sound
-scripts/               capture.ts, self-shots.ts, audit.mjs, og.ts
+scripts/               build.mjs, import-shots.ts, capture.ts, self-shots.ts, audit.mjs, og.ts
 ```
 
 ## Accessibility and motion

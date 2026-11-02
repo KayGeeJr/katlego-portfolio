@@ -18,7 +18,7 @@ export default function NotFound() {
         </div>
         <div className="flex flex-wrap gap-3 md:justify-end">
           <TransitionLink href="/" className="btn btn-solid">Back home</TransitionLink>
-          <TransitionLink href="/projects" className="btn">See all projects</TransitionLink>
+          <a href="/#work" className="btn">See the work</a>
         </div>
       </div>
       <Pattern cols={20} seed={404} />

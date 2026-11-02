@@ -14,7 +14,8 @@ export const site = {
   linkedinLabel: "linkedin.com/in/katlegonkuna",
   cvPdf: "/katlego-nkuna-cv.pdf",
   // TODO(confirm): set the production domain once you have one.
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://katlegonkuna.netlify.app",
+  // Each Netlify/Vercel site sets its own NEXT_PUBLIC_SITE_URL.
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? (process.env.NEXT_PUBLIC_VARIANT === "studio" ? "https://katlego-studio.netlify.app" : "https://katlegonkuna.netlify.app"),
   timezone: "Africa/Johannesburg",
   description:
     "Katlego Nkuna is a Kempton Park–based software developer with 6+ years of frontend-focused work on South African fintech and banking platforms, pairing engineering judgement with AI tooling.",

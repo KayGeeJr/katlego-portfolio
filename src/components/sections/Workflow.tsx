@@ -2,19 +2,28 @@
 
 import { useEffect, useRef, useState } from "react";
 import { aiWorkflow } from "@/data/site";
+import { studioProcess } from "@/data/studio";
+import { isStudio } from "@/lib/variant";
+
+type Step = { key: string; title: string; body: string; tools: readonly string[]; top: boolean };
+const steps: Step[] = isStudio
+  ? studioProcess.steps.map((s) => ({ ...s, top: s.lane === "top" }))
+  : aiWorkflow.map((s) => ({ ...s, top: s.who === "me" }));
+const lanes = isStudio ? studioProcess.lanes : { top: "Me", bottom: "Me + AI tools" };
+const AI_TOOLS = ["Claude Code", "Cursor AI", "JetBrains AI", "Copilot", "AI review", "AI-assisted"];
 import SectionHead from "@/components/ui/SectionHead";
 import { tick } from "@/lib/sound";
 import { prefersReducedMotion } from "@/lib/motion";
 
-const N = aiWorkflow.length;
-const xs = aiWorkflow.map((_, i) => ((i + 0.5) / N) * 100);
-const ys = aiWorkflow.map((s) => (s.who === "me" ? 28 : 62));
+const N = steps.length;
+const xs = steps.map((_, i) => ((i + 0.5) / N) * 100);
+const ys = steps.map((s) => (s.top ? 28 : 62));
 
 export default function Workflow() {
   const [active, setActive] = useState(0);
   const [running, setRunning] = useState(false);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
-  const step = aiWorkflow[active];
+  const step = steps[active];
 
   // "Run the loop" steps through once, on request only.
   useEffect(() => {
@@ -48,16 +57,22 @@ export default function Workflow() {
   return (
     <section id="workflow" aria-labelledby="workflow-title" className="section border-t border-line">
       <div className="wrap">
-        <SectionHead tag="AI-native workflow" id="workflow-title" title="I diagnose before I code. Then I bring the tools.">
-          Claude Code, Cursor AI, JetBrains AI and Copilot are daily pair programmers for me. They don&apos;t replace the judgement; they give it more time. Step through how a piece of work moves from problem to production.
-        </SectionHead>
+        {isStudio ? (
+          <SectionHead tag="How we'll work" id="workflow-title" title="Five steps from first chat to live site.">
+            You&apos;re involved where it matters and spared the rest. Step through it, or let it run.
+          </SectionHead>
+        ) : (
+          <SectionHead tag="AI-native workflow" id="workflow-title" title="I diagnose before I code. Then I bring the tools.">
+            Claude Code, Cursor AI, JetBrains AI and Copilot are daily pair programmers for me. They don&apos;t replace the judgement; they give it more time. Step through how a piece of work moves from problem to production.
+          </SectionHead>
+        )}
 
         <div className="relative border border-line bg-bg-sunk">
           {/* lanes */}
           <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-[260px] md:block" aria-hidden="true">
             <div className="absolute inset-x-0 top-0 h-1/2 border-b border-dashed border-line" />
-            <span className="absolute left-4 top-3 t-data text-muted">Me</span>
-            <span className="absolute left-4 top-[calc(50%+12px)] t-data text-muted">Me + AI tools</span>
+            <span className="absolute left-4 top-3 t-data text-muted">{lanes.top}</span>
+            <span className="absolute left-4 top-[calc(50%+12px)] t-data text-muted">{lanes.bottom}</span>
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
               <path d={path} fill="none" stroke="var(--line-strong)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
               <path d={path} fill="none" stroke="var(--accent)" strokeWidth="2" vectorEffect="non-scaling-stroke" pathLength={1} strokeDasharray="1" style={{ strokeDashoffset: 1 - progress, transition: "stroke-dashoffset .8s cubic-bezier(.16,1,.3,1)" }} />
@@ -65,7 +80,7 @@ export default function Workflow() {
           </div>
 
           <div role="tablist" aria-label="Workflow steps" aria-orientation="horizontal" onKeyDown={onKey} className="relative flex gap-2 overflow-x-auto p-4 md:block md:h-[260px] md:overflow-visible md:p-0">
-            {aiWorkflow.map((s, i) => {
+            {steps.map((s, i) => {
               const on = i === active;
               const done = i < active;
               return (
@@ -94,7 +109,7 @@ export default function Workflow() {
           <div id="wf-panel" role="tabpanel" aria-labelledby={`wf-tab-${step.key}`} className="grid gap-8 border-t border-line p-6 md:grid-cols-12 md:p-10" aria-live="polite">
             <div className="md:col-span-5">
               <p className="t-data text-ochre">
-                Step {active + 1} of {N} · {step.who === "me" ? "Human judgement" : "Me, paired with AI"}
+                Step {active + 1} of {N}, {isStudio ? (step.top ? "with you" : "in the studio") : step.top ? "human judgement" : "me, paired with AI"}
               </p>
               <h3 key={step.key} className="t-h2 mt-3 !text-[clamp(1.75rem,3.4vw,3rem)] [animation:menu-in_.6s_var(--ease-out)]">
                 {step.title}
@@ -106,7 +121,7 @@ export default function Workflow() {
               </p>
               <ul className="mt-6 flex flex-wrap gap-2" aria-label="Tools used in this step">
                 {step.tools.map((t) => (
-                  <li key={t} className={`chip ${["Claude Code", "Cursor AI", "JetBrains AI", "Copilot", "AI review"].includes(t) ? "border-accent/70 text-fg" : "text-muted"}`}>
+                  <li key={t} className={`chip ${AI_TOOLS.includes(t) ? "border-accent/70 text-fg" : "text-muted"}`}>
                     {t}
                   </li>
                 ))}

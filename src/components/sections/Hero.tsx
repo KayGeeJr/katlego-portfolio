@@ -7,6 +7,8 @@ import Clock from "@/components/chrome/Clock";
 import { onIntro } from "@/components/chrome/Preloader";
 import { gsap, ScrollTrigger, SplitText } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
+import { isStudio } from "@/lib/variant";
+import { studioHero } from "@/data/studio";
 
 export default function Hero() {
   const section = useRef<HTMLElement>(null);
@@ -68,11 +70,13 @@ export default function Hero() {
               <span className="block">Nkuna</span>
             </h1>
             <p className="hero-fade max-w-[34ch] pb-[0.4em] text-[1.0625rem] leading-snug text-[#efe6d8]/90 sm:text-[1.1875rem] lg:max-w-[26rem] lg:justify-self-end lg:[grid-area:stack]">
-              Software developer building frontends for South African fintech, and growing into the full stack with AI tools as my daily pair.
+              {isStudio
+                ? studioHero.lead
+                : "Software developer building frontends for South African fintech, and growing into the full stack with AI tools as my daily pair."}
             </p>
           </div>
           <div className="hero-fade mt-6 flex items-end justify-between gap-6 border-t border-[#efe6d8]/20 pt-4 text-[0.9375rem]">
-            <span>Frontend, fintech &amp; AI-native full-stack</span>
+            <span>{isStudio ? studioHero.strap : "Frontend, fintech & AI-native full-stack"}</span>
             <a href="#intro" className="group flex items-center gap-3" aria-label="Scroll to introduction">
               <span className="hidden sm:inline">Scroll</span>
               <span aria-hidden="true" className="relative block h-9 w-[1.5px] overflow-hidden bg-[#efe6d8]/25">

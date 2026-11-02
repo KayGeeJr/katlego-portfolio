@@ -2,12 +2,13 @@
  * Generates the favicon set and the 1200×630 Open Graph cover.
  * The OG cover is a real frame of the hero shader, rendered from the built site.
  *
- *   npm run build && npm run og
+ *   npm run build:cv && npm run og     (then rebuild so public/ changes ship)
  */
 import { chromium } from "playwright";
 import sharp from "sharp";
 import { spawn } from "node:child_process";
 import fs from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 
 const ROOT = path.resolve(__dirname, "..");
@@ -43,7 +44,7 @@ async function icons() {
 }
 
 async function og() {
-  const server = spawn(process.platform === "win32" ? "npx.cmd" : "npx", ["serve@14", "out", "-l", String(PORT), "--no-clipboard"], { cwd: ROOT, stdio: "ignore" });
+  const server = spawn(process.platform === "win32" ? "npx.cmd" : "npx", ["serve@14", existsSync(path.join(ROOT, "out-cv")) ? "out-cv" : "out", "-l", String(PORT), "--no-clipboard"], { detached: process.platform !== "win32", cwd: ROOT, stdio: "ignore" });
   try {
     for (let i = 0; i < 60; i++) {
       try { if ((await fetch(`http://localhost:${PORT}/`)).ok) break; } catch {}
@@ -56,22 +57,30 @@ async function og() {
     await page.goto(`http://localhost:${PORT}/`, { waitUntil: "networkidle" });
     await page.waitForTimeout(6000);
     await page.addStyleTag({ content: `header, .hero-copy, [aria-hidden].fixed, .skip-link { display: none !important; } html { scrollbar-gutter: auto !important; overflow: hidden !important; }` });
-    await page.evaluate(() => {
-      const hero = document.getElementById("top")!;
-      const o = document.createElement("div");
-      o.style.cssText = "position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;justify-content:flex-end;padding:56px 64px;color:#efe6d8;font-family:var(--font-hanken)";
-      o.innerHTML = `
-        <div style="position:absolute;top:52px;left:64px;right:64px;display:flex;justify-content:space-between;font-family:var(--font-jetbrains);font-size:20px;opacity:.9"><span>26.10° S, 28.23° E</span><span>Kempton Park, Gauteng</span></div>
-        <div style="font-family:var(--font-unbounded);font-weight:700;font-size:118px;line-height:.88;letter-spacing:-.035em;text-transform:uppercase">Katlego<br>Nkuna</div>
-        <div style="margin-top:26px;padding-top:18px;border-top:1px solid rgba(239,230,216,.25);display:flex;justify-content:space-between;font-size:26px"><span>Software Developer — frontend, fintech, AI-native</span><span style="color:#d9a441">Highveld to Interface</span></div>`;
-      hero.appendChild(o);
-    });
-    await page.waitForTimeout(400);
-    const buf = await page.screenshot({ type: "png" });
-    await sharp(buf).png({ compressionLevel: 9, palette: false }).toFile(path.join(PUB, "og.png"));
+    const variants = [
+      { file: "og.png", role: "Software Developer — frontend, fintech, AI-native" },
+      { file: "og-studio.png", role: "Websites, online stores & web apps" },
+    ];
+    for (const v of variants) {
+      await page.evaluate((role) => {
+        document.getElementById("og-overlay")?.remove();
+        const hero = document.getElementById("top")!;
+        const o = document.createElement("div");
+        o.id = "og-overlay";
+        o.style.cssText = "position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;justify-content:flex-end;padding:56px 64px;color:#efe6d8;font-family:var(--font-hanken)";
+        o.innerHTML = `
+          <div style="position:absolute;top:52px;left:64px;right:64px;display:flex;justify-content:space-between;font-family:var(--font-jetbrains);font-size:20px;opacity:.9"><span>26.10° S, 28.23° E</span><span>Kempton Park, Gauteng</span></div>
+          <div style="font-family:var(--font-unbounded);font-weight:700;font-size:118px;line-height:.88;letter-spacing:-.035em;text-transform:uppercase">Katlego<br>Nkuna</div>
+          <div style="margin-top:26px;padding-top:18px;border-top:1px solid rgba(239,230,216,.25);display:flex;justify-content:space-between;font-size:26px"><span>${role}</span><span style="color:#d9a441">Highveld to Interface</span></div>`;
+        hero.appendChild(o);
+      }, v.role);
+      await page.waitForTimeout(400);
+      const buf = await page.screenshot({ type: "png" });
+      await sharp(buf).png({ compressionLevel: 9 }).toFile(path.join(PUB, v.file));
+    }
     await browser.close();
   } finally {
-    server.kill();
+    try { if (process.platform !== "win32" && server.pid) process.kill(-server.pid); else server.kill(); } catch { server.kill(); }
   }
 }
 

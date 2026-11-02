@@ -72,8 +72,12 @@ Left-aligned throughout. A 12-column grid: section labels sit in columns 1–3 a
 
 ## Sitemap
 
-- `/`: Hero → About → marquee → Journey → What I do → AI-native workflow → Stack → Experience → Impact → Selected work (pinned horizontal strip) → Fintech case studies (NDA) → Lab → Education → Contact
-- `/projects`: filterable index with cursor-following previews
-- `/project/[slug]`: 11 detail pages (12th hidden until its URL is confirmed)
+**CV site** (recruiters):
+- `/`: Hero → About → marquee → Journey → What I do → AI-native workflow → Stack → Experience → Impact → Live sites (pinned horizontal strip, cards open the real sites) → Fintech case studies (NDA) → Lab → Education → Contact
 - `/cv`: printable HTML resume, plus `/katlego-nkuna-cv.pdf`
-- custom 404, `sitemap.xml`, `robots.txt`, `manifest.webmanifest`
+
+**Studio site** (private clients):
+- `/`: Hero → About (client-facing) → Live sites → marquee → Services → How we'll work → Lab → Quote form + contact
+- No resume, no employer or bank detail, `noindex` by default
+
+Both sites have a custom 404, `sitemap.xml`, `robots.txt` and `manifest.webmanifest`.

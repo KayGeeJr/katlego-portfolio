@@ -5,14 +5,20 @@
   "description": "Portfolio of Katlego Nkuna — Highveld to Interface.",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/build.mjs",
     "start": "npx serve@14 out -l 3000",
     "typecheck": "tsc --noEmit",
     "capture": "tsx scripts/capture.ts",
-    "capture:one": "tsx scripts/capture.ts --only",
+    "import-shots": "tsx scripts/import-shots.ts",
     "og": "tsx scripts/og.ts",
     "shots": "tsx scripts/self-shots.ts",
-    "audit": "node scripts/audit.mjs"
+    "audit": "node scripts/audit.mjs",
+    "build:cv": "node scripts/build.mjs cv --to out-cv",
+    "build:studio": "node scripts/build.mjs studio --to out-studio",
+    "build:both": "npm run build:cv && npm run build:studio",
+    "dev:studio": "cross-env NEXT_PUBLIC_VARIANT=studio next dev",
+    "start:cv": "npx serve@14 out-cv -l 3000",
+    "start:studio": "npx serve@14 out-studio -l 3001"
   },
   "dependencies": {
     "@fontsource-variable/hanken-grotesk": "^5.3.0",
@@ -32,6 +38,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "chrome-launcher": "^1.2.2",
+    "cross-env": "^10.1.0",
     "ffmpeg-static": "^5.3.0",
     "lighthouse": "^13.6.0",
     "playwright": "1.63.0",

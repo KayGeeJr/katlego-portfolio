@@ -5,7 +5,7 @@ Images are in `docs/awwwards/`. Re-shoot them after `npm run capture` so the wor
 ## Basics
 
 - **Title:** Katlego Nkuna: Highveld to Interface
-- **URL:** _(production domain, see TODO.md)_
+- **URL:** the CV site (production domain, see TODO.md). Submit the CV site, since the studio site is noindex.
 - **Category:** Portfolio
 - **Country:** South Africa
 - **Credits:** Design & development by Katlego Nkuna
@@ -32,7 +32,7 @@ Craft notes: static export, CSS fallback for low-power devices, WebGL loaded aft
 |---|---|
 | `00-cover-1600x1200.jpg` | Submission thumbnail (hero with the lattice lens open) |
 | `01`–`07` `*-desktop.jpg` | Section screenshots |
-| `08-project-page-desktop.jpg`, `09-index-desktop.jpg` | Inner pages |
+| `08-work-strip-desktop.jpg` | Live-site strip (cards open the real sites) |
 | `10`–`12` `*-mobile.jpg` | Mobile set |
 
 ## Things to show the jury in a screen recording

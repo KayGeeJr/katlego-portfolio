@@ -3,6 +3,15 @@ import { Suspense } from "react";
 import localFont from "next/font/local";
 import "./globals.css";
 import { site } from "@/data/site";
+import { isStudio } from "@/lib/variant";
+
+// The private studio profile stays out of search engines unless NEXT_PUBLIC_STUDIO_INDEX=1.
+const indexable = !isStudio || process.env.NEXT_PUBLIC_STUDIO_INDEX === "1";
+const ogImage = isStudio ? "/og-studio.png" : "/og.png";
+const pageTitle = isStudio ? `${site.name} — Web Developer, Kempton Park` : `${site.name} — Software Developer, Kempton Park`;
+const pageDescription = isStudio
+  ? "Katlego Nkuna designs and builds websites, online stores and web apps for South African businesses, from Kempton Park, Gauteng."
+  : site.description;
 import Header from "@/components/chrome/Header";
 import ScrollProgress from "@/components/chrome/ScrollProgress";
 import FinePointerOnly from "@/components/chrome/FinePointerOnly";
@@ -42,24 +51,26 @@ const jetbrains = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: `${site.name} — Software Developer, Kempton Park`, template: `%s — ${site.name}` },
-  description: site.description,
+  title: { default: pageTitle, template: `%s — ${site.name}` },
+  description: pageDescription,
   applicationName: site.name,
   authors: [{ name: site.name, url: site.url }],
   creator: site.name,
-  keywords: ["Katlego Nkuna", "software developer", "frontend developer", "React", "Angular", "Vue", "fintech", "South Africa", "Johannesburg", "Kempton Park", "portfolio"],
+  keywords: isStudio
+    ? ["Katlego Nkuna", "web developer", "web design", "website", "online store", "Johannesburg", "Kempton Park", "Gauteng", "South Africa"]
+    : ["Katlego Nkuna", "software developer", "frontend developer", "React", "Angular", "Vue", "fintech", "South Africa", "Johannesburg", "Kempton Park", "portfolio"],
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_ZA",
     url: site.url,
     siteName: site.name,
-    title: `${site.name} — Highveld to Interface`,
-    description: site.description,
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Katlego Nkuna — Software Developer. A dusk sky over a low ridge with stepped geometric linework." }],
+    title: isStudio ? `${site.name} — Websites for South African businesses` : `${site.name} — Highveld to Interface`,
+    description: pageDescription,
+    images: [{ url: ogImage, width: 1200, height: 630, alt: `Katlego Nkuna — ${isStudio ? "Web Developer" : "Software Developer"}. A dusk sky over a low ridge with stepped geometric linework.` }],
   },
-  twitter: { card: "summary_large_image", title: `${site.name} — Highveld to Interface`, description: site.description, images: ["/og.png"] },
-  robots: { index: true, follow: true },
+  twitter: { card: "summary_large_image", title: `${site.name} — Highveld to Interface`, description: pageDescription, images: [ogImage] },
+  robots: { index: indexable, follow: indexable },
   icons: {
     icon: [{ url: "/favicon.ico", sizes: "any" }, { url: "/icon.svg", type: "image/svg+xml" }],
     apple: "/apple-touch-icon.png",
@@ -83,13 +94,17 @@ const personLd = {
   name: site.name,
   url: site.url,
   email: `mailto:${site.email}`,
-  jobTitle: "Software Developer",
-  description: site.description,
+  jobTitle: isStudio ? "Web Developer" : "Software Developer",
+  description: pageDescription,
   address: { "@type": "PostalAddress", addressLocality: "Kempton Park", addressRegion: "Gauteng", addressCountry: "ZA" },
-  alumniOf: { "@type": "CollegeOrUniversity", name: "University of Pretoria" },
-  worksFor: { "@type": "Organization", name: "Dashpay" },
-  sameAs: [site.linkedin],
-  knowsAbout: ["React", "Angular", "Vue", "TypeScript", "React Native", ".NET", "Node.js", "Microsoft Azure", "Fintech", "Payments", "UI/UX design"],
+  ...(isStudio
+    ? { knowsAbout: ["Web design", "Web development", "E-commerce", "React", "Next.js", "UI/UX design"] }
+    : {
+        alumniOf: { "@type": "CollegeOrUniversity", name: "University of Pretoria" },
+        worksFor: { "@type": "Organization", name: "Dashpay" },
+        sameAs: [site.linkedin],
+        knowsAbout: ["React", "Angular", "Vue", "TypeScript", "React Native", ".NET", "Node.js", "Microsoft Azure", "Fintech", "Payments", "UI/UX design"],
+      }),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -14,16 +14,17 @@ import { AxeBuilder } from "@axe-core/playwright";
 import { spawn } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const argv = process.argv.slice(2);
 const opt = (n, d) => {
   const i = argv.indexOf(`--${n}`);
   return i >= 0 ? argv[i + 1] : d;
 };
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "audit");
 const PORT = 3130;
-const routes = opt("routes", "/,/projects,/project/mb-communications,/cv").split(",");
+const routes = opt("routes", "/,/cv").split(",");
 const runs = Number(opt("runs", "1"));
 const BASE = `http://localhost:${PORT}`;
 
@@ -46,7 +47,7 @@ async function runLighthouse(url, formFactor, port) {
 
 async function main() {
   await fs.mkdir(OUT, { recursive: true });
-  const server = spawn(process.platform === "win32" ? "npx.cmd" : "npx", ["serve@14", "out", "-l", String(PORT), "--no-clipboard"], { cwd: ROOT, stdio: "ignore" });
+  const server = spawn(process.platform === "win32" ? "npx.cmd" : "npx", ["serve@14", opt("dir", "out"), "-l", String(PORT), "--no-clipboard"], { detached: process.platform !== "win32", cwd: ROOT, stdio: "ignore" });
   try {
     for (let i = 0; i < 60; i++) {
       try { if ((await fetch(BASE)).ok) break; } catch {}
@@ -115,11 +116,11 @@ async function main() {
       ...axeRows,
       "",
     ].join("\n");
-    await fs.writeFile(path.join(OUT, "report.md"), md);
+    await fs.writeFile(path.join(OUT, opt("report", "report.md")), md);
     await fs.writeFile(path.join(OUT, "details.json"), JSON.stringify(all, null, 2));
     console.log("\naudit/report.md written");
   } finally {
-    server.kill();
+    try { if (process.platform !== "win32" && server.pid) process.kill(-server.pid); else server.kill(); } catch { server.kill(); }
   }
 }
 
