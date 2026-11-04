@@ -14,7 +14,7 @@
 - [ ] **Studio copy** (`src/data/studio.ts`): the services, process and reply time ("a couple of working days") are written as offers. Adjust them to what you actually provide (e.g. do you handle domains and hosting?).
 - [ ] **WhatsApp / phone** for the studio contact: send the number and I'll add a WhatsApp button.
 - [ ] **Journey (CV site):** the order is Nelspruit → Pretoria → Sandton → Kempton Park. Is Nelspruit where you grew up?
-- [ ] **Tadaa!, Rooted In Culture, Naked Kitchen, Coffee Canony:** dropped because there were no screenshots. To bring one back, add it to `projects.ts`, drop `shots-in/<slug>.png` and run `npm run import-shots`.
+- [ ] **Rooted In Culture, Naked Kitchen, Coffee Canony:** dropped because there were no screenshots. (Tadaa! is back, with a mockup made from live screenshots.) To bring one back, add it to `projects.ts`, drop `shots-in/<slug>.png` and run `npm run import-shots`.
 
 ## Testing to do on your PC
 

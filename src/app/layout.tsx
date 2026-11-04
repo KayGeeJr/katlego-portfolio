@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: isStudio ? `${site.name} — Websites for South African businesses` : `${site.name} — Highveld to Interface`,
     description: pageDescription,
-    images: [{ url: ogImage, width: 1200, height: 630, alt: `Katlego Nkuna — ${isStudio ? "Web Developer" : "Software Developer"}. A dusk sky over a low ridge with stepped geometric linework.` }],
+    images: [{ url: ogImage, width: 1200, height: 630, alt: `Katlego Nkuna — ${isStudio ? "Web Developer" : "Software Developer"}. A soft sky over a low ridge with stepped geometric linework.` }],
   },
   twitter: { card: "summary_large_image", title: `${site.name} — Highveld to Interface`, description: pageDescription, images: [ogImage] },
   robots: { index: indexable, follow: indexable },
@@ -79,14 +79,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#16120e",
+  themeColor: "#faf6ef",
   colorScheme: "dark light",
   width: "device-width",
   initialScale: 1,
 };
 
 // Runs before paint: theme, JS flag and whether to show the intro (no flash, no layout shift).
-const bootScript = `(function(){var d=document.documentElement;d.classList.add('js');try{var p=JSON.parse(localStorage.getItem('kn-prefs')||'{}');d.dataset.theme=p.theme==='light'?'light':'dark';if(p.theme==='light'){var m=document.querySelector('meta[name="theme-color"]');m&&m.setAttribute('content','#f1e7d6')}}catch(e){d.dataset.theme='dark'}try{if(sessionStorage.getItem('kn-intro')||matchMedia('(prefers-reduced-motion: reduce)').matches||matchMedia('(pointer: coarse)').matches)d.classList.add('preloaded')}catch(e){d.classList.add('preloaded')}})();`;
+const bootScript = `(function(){var d=document.documentElement;d.classList.add('js');try{var p=JSON.parse(localStorage.getItem('kn-prefs')||'{}');d.dataset.theme=p.theme==='dark'?'dark':'light';if(p.theme==='dark'){var m=document.querySelector('meta[name="theme-color"]');m&&m.setAttribute('content','#15130f')}}catch(e){d.dataset.theme='light'}try{if(sessionStorage.getItem('kn-intro')||matchMedia('(prefers-reduced-motion: reduce)').matches||matchMedia('(pointer: coarse)').matches)d.classList.add('preloaded')}catch(e){d.classList.add('preloaded')}})();`;
 
 const personLd = {
   "@context": "https://schema.org",
@@ -109,7 +109,7 @@ const personLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-ZA" data-theme="dark" className={`${unbounded.variable} ${hanken.variable} ${jetbrains.variable}`} suppressHydrationWarning>
+    <html lang="en-ZA" data-theme="light" className={`${unbounded.variable} ${hanken.variable} ${jetbrains.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }} />

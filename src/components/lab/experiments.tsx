@@ -42,7 +42,7 @@ export function ShaderPlayground() {
   const set = (k: keyof ShaderParams) => (v: number) => setP((o) => ({ ...o, [k]: v }));
   return (
     <div className="flex h-full flex-col">
-      <div ref={ref} className="relative aspect-[16/10] overflow-hidden bg-[#16120e]">
+      <div ref={ref} className="relative aspect-[16/10] overflow-hidden bg-bg-sunk">
         {seen && <ShaderCanvas className="absolute inset-0" paramsRef={live} maxDpr={1} />}
       </div>
       <div className="grid gap-3 p-5">
@@ -220,15 +220,15 @@ export function NegativeCard() {
   return (
     <div className="flex h-full min-h-[300px] flex-col items-start justify-between gap-6 bg-bg-sunk p-6">
       <svg viewBox="0 0 200 120" className="keep-positive w-full max-w-[280px]" aria-hidden="true">
-        <rect x="0" y="0" width="100" height="120" fill="#16120e" />
-        <rect x="100" y="0" width="100" height="120" fill="#e9edf1" />
-        <circle cx="100" cy="64" r="34" fill="#d9a441" />
-        <path d="M100 30 a34 34 0 0 1 0 68z" fill="#265bbe" />
-        <path d="M0 96 H200" stroke="#e8692c" strokeWidth="2" />
+        <rect x="0" y="0" width="100" height="120" fill="#faf6ef" />
+        <rect x="100" y="0" width="100" height="120" fill="#0c0801" />
+        <circle cx="100" cy="64" r="34" fill="#f5c25a" />
+        <path d="M100 30 a34 34 0 0 1 0 68z" fill="#693600" />
+        <path d="M0 96 H200" stroke="#2f6e47" strokeWidth="2" />
       </svg>
       <div>
         <p className="mb-4 max-w-[34ch] text-[0.9375rem] text-muted">
-          Every pixel on the site, inverted. The dusk turns to a blue noon. Press <kbd className="rounded border border-line-strong px-1.5 py-0.5 t-data">N</kbd> anywhere to toggle it.
+          Every pixel on the site, inverted. Day turns to night, and night to day. Press <kbd className="rounded border border-line-strong px-1.5 py-0.5 t-data">N</kbd> anywhere to toggle it.
         </p>
         <button type="button" className="btn" aria-pressed={negative} onClick={(e) => toggleNegative({ x: e.clientX, y: e.clientY })}>
           {negative ? "Develop the print" : "Flip to negative"}

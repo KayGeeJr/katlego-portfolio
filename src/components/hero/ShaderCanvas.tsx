@@ -18,6 +18,8 @@ type Props = {
   onReady?: () => void;
 };
 
+const isDay = () => (document.documentElement.dataset.theme === "dark" ? 0 : 1);
+
 /**
  * OGL full-screen triangle running the Highveld shader.
  * - Pauses when off-screen or the tab is hidden.
@@ -59,9 +61,21 @@ export default function ShaderCanvas({ params, paramsRef, trackRef, scrollRef, m
         uDensity: { value: p.density },
         uLevels: { value: p.levels },
         uScroll: { value: 0 },
+        uDay: { value: isDay() },
       },
     });
     const mesh = new Mesh(gl, { geometry: new Triangle(gl), program });
+
+    // theme → sky palette: eased in the frame loop, applied at once for reduced motion
+    let day = isDay();
+    const mo = new MutationObserver(() => {
+      day = isDay();
+      if (reduce) {
+        program.uniforms.uDay.value = day;
+        renderer.render({ scene: mesh });
+      }
+    });
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
     const resize = () => {
       renderer.dpr = dpr();
@@ -126,6 +140,7 @@ export default function ShaderCanvas({ params, paramsRef, trackRef, scrollRef, m
       u.uMouse.value = [cur.x, cur.y];
       u.uHover.value = cur.hover;
       u.uScroll.value = scrollRef?.current ?? 0;
+      u.uDay.value += (day - u.uDay.value) * k * 0.5;
       if (live) {
         u.uWarp.value = live.warp;
         u.uGrain.value = live.grain;
@@ -152,6 +167,7 @@ export default function ShaderCanvas({ params, paramsRef, trackRef, scrollRef, m
         ro.disconnect();
         ro2.disconnect();
         io.disconnect();
+        mo.disconnect();
         gl.getExtension("WEBGL_lose_context")?.loseContext();
         gl.canvas.remove();
       };
@@ -162,6 +178,7 @@ export default function ShaderCanvas({ params, paramsRef, trackRef, scrollRef, m
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
+      mo.disconnect();
       tracker.removeEventListener("pointermove", onMove);
       tracker.removeEventListener("pointerleave", onLeave);
       gl.getExtension("WEBGL_lose_context")?.loseContext();

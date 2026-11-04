@@ -47,13 +47,13 @@ export default function Hero() {
   }, []);
 
   return (
-    <section ref={section} id="top" data-header-dark aria-labelledby="hero-title" className="relative h-[100svh] min-h-[600px] overflow-hidden bg-[#16120e] text-[#efe6d8]">
+    <section ref={section} id="top" aria-labelledby="hero-title" className="relative h-[100svh] min-h-[600px] overflow-hidden bg-[var(--hero-land)] text-fg">
       <HeroFallback />
       <LazyShader className="absolute inset-0" scrollRef={scroll} trackRef={section} />
 
       <div className="hero-copy wrap relative z-10 flex h-full flex-col pb-6 pt-24 sm:pb-8">
         <div className="hero-fade flex justify-end">
-          <dl className="grid grid-cols-[auto_auto] gap-x-4 gap-y-1 text-right t-data text-[#efe6d8]/85">
+          <dl className="grid grid-cols-[auto_auto] gap-x-4 gap-y-1 text-right t-data text-fg/85">
             <dt className="sr-only">Coordinates</dt>
             <dd className="col-span-2">26.10° S, 28.23° E</dd>
             <dt className="sr-only">Based in</dt>
@@ -69,18 +69,18 @@ export default function Hero() {
               <span className="block">Katlego</span>
               <span className="block">Nkuna</span>
             </h1>
-            <p className="hero-fade max-w-[34ch] pb-[0.4em] text-[1.0625rem] leading-snug text-[#efe6d8]/90 sm:text-[1.1875rem] lg:max-w-[26rem] lg:justify-self-end lg:[grid-area:stack]">
+            <p className="hero-fade max-w-[34ch] pb-[0.4em] text-[1.0625rem] leading-snug text-fg/90 sm:text-[1.1875rem] lg:max-w-[26rem] lg:justify-self-end lg:[grid-area:stack]">
               {isStudio
                 ? studioHero.lead
                 : "Software developer building frontends for South African fintech, and growing into the full stack with AI tools as my daily pair."}
             </p>
           </div>
-          <div className="hero-fade mt-6 flex items-end justify-between gap-6 border-t border-[#efe6d8]/20 pt-4 text-[0.9375rem]">
+          <div className="hero-fade mt-6 flex items-end justify-between gap-6 border-t border-fg/20 pt-4 text-[0.9375rem]">
             <span>{isStudio ? studioHero.strap : "Frontend, fintech & AI-native full-stack"}</span>
             <a href="#intro" className="group flex items-center gap-3" aria-label="Scroll to introduction">
               <span className="hidden sm:inline">Scroll</span>
-              <span aria-hidden="true" className="relative block h-9 w-[1.5px] overflow-hidden bg-[#efe6d8]/25">
-                <span className="absolute inset-x-0 top-0 h-1/2 bg-[#d9a441] [animation:scrollcue_1.8s_var(--ease-in-out)_infinite]" />
+              <span aria-hidden="true" className="relative block h-9 w-[1.5px] overflow-hidden bg-fg/25">
+                <span className="absolute inset-x-0 top-0 h-1/2 bg-ochre [animation:scrollcue_1.8s_var(--ease-in-out)_infinite]" />
               </span>
             </a>
           </div>

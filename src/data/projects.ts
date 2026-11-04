@@ -75,6 +75,16 @@ export const projects: Project[] = [
 
   // ── Product & concept builds ───────────────────────────────────────────────
   {
+    slug: "tadaa-icecream",
+    name: "Tadaa!",
+    url: "https://tadaa-icecream.netlify.app",
+    group: "concept",
+    kind: "Artisanal ice cream shop",
+    tagline: "Handcrafted ice cream in Cape Town, with big flavours and a playful menu.",
+    palette: { bg: "#F6C9D2", ink: "#3D1F24", accent: "#E8692C" },
+    motif: "rings",
+  },
+  {
     slug: "breathe",
     name: "Breathe JHB",
     url: "https://breathe-jhb.netlify.app",

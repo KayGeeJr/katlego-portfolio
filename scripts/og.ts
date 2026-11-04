@@ -40,7 +40,7 @@ async function icons() {
   await fs.writeFile(path.join(PUB, "icon-512.png"), await png(512));
   // maskable: monogram inside the safe zone on a full-bleed ink square
   const inner = await sharp(svg, { density: 600 }).resize(340, 340).png().toBuffer();
-  await sharp({ create: { width: 512, height: 512, channels: 4, background: "#16120e" } }).composite([{ input: inner, gravity: "center" }]).png().toFile(path.join(PUB, "icon-512-maskable.png"));
+  await sharp({ create: { width: 512, height: 512, channels: 4, background: "#15130f" } }).composite([{ input: inner, gravity: "center" }]).png().toFile(path.join(PUB, "icon-512-maskable.png"));
 }
 
 async function og() {
@@ -67,11 +67,11 @@ async function og() {
         const hero = document.getElementById("top")!;
         const o = document.createElement("div");
         o.id = "og-overlay";
-        o.style.cssText = "position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;justify-content:flex-end;padding:56px 64px;color:#efe6d8;font-family:var(--font-hanken)";
+        o.style.cssText = "position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;justify-content:flex-end;padding:56px 64px;color:var(--fg);font-family:var(--font-hanken)";
         o.innerHTML = `
           <div style="position:absolute;top:52px;left:64px;right:64px;display:flex;justify-content:space-between;font-family:var(--font-jetbrains);font-size:20px;opacity:.9"><span>26.10° S, 28.23° E</span><span>Kempton Park, Gauteng</span></div>
           <div style="font-family:var(--font-unbounded);font-weight:700;font-size:118px;line-height:.88;letter-spacing:-.035em;text-transform:uppercase">Katlego<br>Nkuna</div>
-          <div style="margin-top:26px;padding-top:18px;border-top:1px solid rgba(239,230,216,.25);display:flex;justify-content:space-between;font-size:26px"><span>${role}</span><span style="color:#d9a441">Highveld to Interface</span></div>`;
+          <div style="margin-top:26px;padding-top:18px;border-top:1px solid var(--line-strong);display:flex;justify-content:space-between;font-size:26px"><span>${role}</span><span style="color:var(--ochre)">Highveld to Interface</span></div>`;
         hero.appendChild(o);
       }, v.role);
       await page.waitForTimeout(400);

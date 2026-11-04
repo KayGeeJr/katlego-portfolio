@@ -8,7 +8,7 @@
 | Sections | Hero, About, Journey, What I do, AI-native workflow, Stack, Experience, Impact, Live sites, **Fintech case studies (NDA)**, Lab, Education, Contact | Hero, About, **Live sites first**, Services, How we'll work, Lab, **Quote form** |
 | Extras | `/cv` printable resume + PDF download, LinkedIn, indexed by search engines | No CV, no bank or fintech detail, `noindex` by default |
 
-On both sites, every project card opens the **live site directly** in a new tab. There are no in-between detail pages.
+On both sites, every project card opens the **live site directly** in the same tab, so the browser's Back button returns to the work section. There are no in-between detail pages.
 
 Built with Next.js (static export), TypeScript, Tailwind CSS 4, GSAP + Lenis and an OGL/GLSL hero.
 
@@ -97,9 +97,9 @@ scripts/               build.mjs, import-shots.ts, capture.ts, self-shots.ts, au
 
 ## Accessibility and motion
 
-- Skip link, landmarks, semantic headings, visible jacaranda focus rings, keyboard-operable workflow tabs (arrow keys, Home, End), `aria-live` feedback.
+- Skip link, landmarks, semantic headings, visible ultramarine focus rings, keyboard-operable workflow tabs (arrow keys, Home, End), `aria-live` feedback.
 - `prefers-reduced-motion`: no smooth scroll, no text splitting, a still shader frame, no marquee, no preloader.
 - Touch devices: native scroll, no custom cursor, no preloader, swipeable work strip and map.
-- Low-power devices (save-data, < 4 cores, < 3 GB RAM): CSS dusk instead of WebGL.
+- Low-power devices (save-data, < 4 cores, < 3 GB RAM): a CSS sky instead of WebGL.
 - Sound is off by default; the toggle synthesises soft UI ticks with Web Audio (no audio files).
 - Easter egg: press **N**.

@@ -163,6 +163,47 @@
       "mockup"
     ]
   },
+  "tadaa-icecream": {
+    "slug": "tadaa-icecream",
+    "url": "https://tadaa-icecream.netlify.app",
+    "status": "ok",
+    "checkedAt": "2026-11-04T20:43:00.067Z",
+    "colors": [
+      "#f8f8e8"
+    ],
+    "fonts": [],
+    "tech": [],
+    "frames": [
+      {
+        "key": "mockup",
+        "label": "Desktop and mobile",
+        "width": 3200,
+        "height": 1721,
+        "sources": [
+          {
+            "avif": "/projects/tadaa-icecream/mockup-720.avif",
+            "webp": "/projects/tadaa-icecream/mockup-720.webp",
+            "w": 720
+          },
+          {
+            "avif": "/projects/tadaa-icecream/mockup-1280.avif",
+            "webp": "/projects/tadaa-icecream/mockup-1280.webp",
+            "w": 1280
+          },
+          {
+            "avif": "/projects/tadaa-icecream/mockup-1920.avif",
+            "webp": "/projects/tadaa-icecream/mockup-1920.webp",
+            "w": 1920
+          }
+        ],
+        "blur": "data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAAAwBACdASoYAA0APu1iqk2ppaQiMAgBMB2JQBOgMYJb7MkhbamvvTC51iAAzj65dSg8FHbsuD5y7pVYr+05ZPPyfaHiqyGH9CKLP/T9DN36YCSMrh83vvt3nyGoK6cbrM59JWTC5/2l+34KotKZ5xDiwGWOTdBy/wZGOdyjDpZuTDHduI/qV01TIUHQDIURd7rRWE+Gc32AAA==",
+        "score": 100
+      }
+    ],
+    "chosen": [
+      "mockup"
+    ]
+  },
   "breathe": {
     "slug": "breathe",
     "url": "https://breathe-jhb.netlify.app",

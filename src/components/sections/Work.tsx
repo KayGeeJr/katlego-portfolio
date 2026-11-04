@@ -3,12 +3,12 @@ import { isStudio } from "@/lib/variant";
 import WorkPin from "@/components/work/WorkPin";
 import ProjectMedia from "@/components/work/ProjectMedia";
 
-/** Each card opens the live site directly, in a new tab. */
+/** Each card opens the live site directly, in the same tab, so Back returns to the work strip. */
 function Card({ p, index }: { p: Project; index: number }) {
   return (
     <li className="work-card w-[84vw] shrink-0 snap-start sm:w-[62vw] md:w-[46vw] xl:w-[40vw]">
-      <a href={p.url} target="_blank" rel="noopener" data-cursor="Visit" className="group block">
-        <div className="relative aspect-[16/9] overflow-hidden border border-line bg-[#1b1d24]">
+      <a href={p.url} data-cursor="Visit" className="group block">
+        <div className="relative aspect-[16/9] overflow-hidden border border-line bg-bg-sunk">
           <div className="h-full w-full transition-transform duration-[1.2s] [transition-timing-function:var(--ease-out)] group-hover:scale-[1.035]">
             <ProjectMedia project={p} sizes="(min-width: 1280px) 40vw, (min-width: 768px) 46vw, 84vw" />
           </div>
@@ -24,7 +24,7 @@ function Card({ p, index }: { p: Project; index: number }) {
           <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" className="transition-transform duration-500 [transition-timing-function:var(--ease-out)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
             <path d="M3 9L9 3M4 3h5v5" fill="none" stroke="currentColor" strokeWidth="1.5" />
           </svg>
-          <span className="sr-only">(opens the live site in a new tab)</span>
+          <span className="sr-only">(opens the live site)</span>
         </p>
       </a>
     </li>

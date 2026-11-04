@@ -8,21 +8,25 @@ The memorable thing is the hero, a live dusk sky. Move the cursor across the lan
 
 ## Palette
 
-| Token | Dark (default) | Light | Role |
+Bright earth: the Highveld in full colour, light by default.
+
+| Name (CSS token) | Light (default) | Dark | Role |
 |---|---|---|---|
-| Ironstone ink | `#16120E` | Kalahari sand `#F1E7D6` | Background. Warm near-black, the colour of the ridge after sunset |
-| Bone | `#EFE6D8` | `#1E1813` | Text |
-| Ochre | `#D9A441` | `#7A4F08` | Data, indices, highlights (the horizon glow) |
-| Highveld dusk | `#E8692C` | `#B2421A` | Lines and progress (the sky band above the glow) |
-| Red earth | `#A4472A` | `#8F3A20` | Fills and the route curtain (Gauteng soil) |
-| Jacaranda | `#9B7DFF` | `#5A3ED6` | **Interaction only**: focus, active, hover, selection, the final leg of the journey |
+| Cream / Charcoal (`--bg`) | `#FAF6EF` | `#15130F` | Background |
+| Ink / Cream (`--fg`) | `#15120F` | `#F4EFE6` | Text |
+| Ochre (`--ochre`) | `#8A5800` | `#E8B04A` | Data, indices, highlights (the horizon glow) |
+| Veld green (`--dusk`) | `#2F6E47` | `#6FBF8A` | Lines and progress |
+| Terracotta (`--earth`) | `#C2502B` | `#D9643A` | Fills and the route curtain (Gauteng soil) |
+| Ultramarine (`--accent`) | `#2A40D0` | `#8B9CFF` | **Interaction only**: focus, active, hover, selection, the final leg of the journey |
+
+The CSS token names predate the palette and describe roles, not hues.
 
 Why it works:
-- Warm, not black and white. Ochre, dusk and earth are the actual colours of a Gauteng sunset and red soil, so the palette is regional rather than decorative.
-- One electric accent. Jacaranda (Pretoria is the Jacaranda City, and UP is where the story starts) is the only cool hue, so anything violet means "you can act on this".
-- Contrast: every text pairing passes WCAG AA in both themes (axe-core verified). Light-mode ochre was darkened from `#8C5C0C` to `#7A4F08` after the audit.
-- The hero is always dusk. It stays dark in light mode on purpose. Light mode is daylight on paper, but the sky at the top of the page doesn't change.
-- Negative mode (press **N**) inverts the whole page. Dusk becomes a blue noon and jacaranda turns green.
+- Warm and saturated on a clean cream page. Ochre, veld green and terracotta are the Highveld's grass, soil and sunsets, so the palette is regional rather than decorative.
+- One cool accent. Ultramarine is the only blue, so anything blue means "you can act on this".
+- Contrast: every text pairing passes WCAG AA in both themes (lowest is light-mode ochre on the sunk background, about 4.9:1). Terracotta is only used for fills..
+- The hero follows the theme. Light mode is a bright afternoon (mint sky, a terracotta band and a saffron horizon over cream ground). Dark mode is a full dusk. The shader eases between them when the theme changes, and the CSS fallback reads the same `--hero-*` tokens.
+- Negative mode (press **N**) inverts the whole page, so day turns to night and night to day.
 
 ## Type
 

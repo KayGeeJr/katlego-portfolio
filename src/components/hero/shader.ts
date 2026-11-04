@@ -1,7 +1,8 @@
 /**
- * "Highveld dusk" — the hero shader.
+ * "Highveld sky" — the hero shader.
  *
- * A dusk sky over a low ridge, built from domain-warped fBm bands. The colour
+ * A sky over a low ridge, built from domain-warped fBm bands, in the muted-earth
+ * palette: a soft afternoon in light mode, dusk in dark mode (uDay). The colour
  * ramp is quantised with a 4×4 Bayer matrix, so the gradient breaks into
  * printed-looking dither steps. Around the cursor a lens opens onto a stepped
  * diamond lattice — an abstract nod to Ndebele and Sotho wall geometry — and
@@ -32,6 +33,7 @@ uniform float uGrain;     // 0..1
 uniform float uDensity;   // lattice scale
 uniform float uLevels;    // colour quantisation levels
 uniform float uScroll;    // 0..1 hero scroll progress — the sun sets as you scroll
+uniform float uDay;       // 0 = dark theme palette, 1 = light theme palette
 
 varying vec2 vUv;
 
@@ -62,20 +64,37 @@ float bayer4(vec2 fc) {
   return b / 16.0 - 0.5;
 }
 
-// palette
-const vec3 INK    = vec3(0.086, 0.071, 0.055);
-const vec3 NIGHT  = vec3(0.118, 0.082, 0.137);
-const vec3 EARTH  = vec3(0.643, 0.278, 0.165);
-const vec3 DUSK   = vec3(0.910, 0.412, 0.173);
-const vec3 OCHRE  = vec3(0.851, 0.643, 0.255);
-const vec3 BONE   = vec3(0.937, 0.902, 0.847);
-const vec3 JAC    = vec3(0.608, 0.490, 1.0);
+// palettes (bright earth): N_ = dark theme, D_ = light theme. Mirrors the --hero-* tokens.
+const vec3 N_ZENITH  = vec3(0.110, 0.094, 0.106);
+const vec3 N_UPPER   = vec3(0.557, 0.247, 0.149);
+const vec3 N_BAND    = vec3(0.851, 0.392, 0.227);
+const vec3 N_HORIZON = vec3(0.910, 0.690, 0.290);
+const vec3 N_LAND    = vec3(0.082, 0.075, 0.059);
+const vec3 N_LAND2   = vec3(0.298, 0.137, 0.078);
+const vec3 N_RIM     = vec3(0.851, 0.392, 0.227);
+const vec3 N_SUN     = vec3(0.957, 0.937, 0.902);
+const vec3 N_LAT     = vec3(0.910, 0.690, 0.290);
+const vec3 N_LENS    = vec3(0.545, 0.612, 1.0);
+
+const vec3 D_ZENITH  = vec3(0.969, 0.949, 0.914);
+const vec3 D_UPPER   = vec3(0.663, 0.804, 0.698);
+const vec3 D_BAND    = vec3(0.925, 0.506, 0.333);
+const vec3 D_HORIZON = vec3(0.961, 0.761, 0.353);
+const vec3 D_LAND    = vec3(0.965, 0.941, 0.898);
+const vec3 D_LAND2   = vec3(0.902, 0.824, 0.682);
+const vec3 D_RIM     = vec3(0.761, 0.314, 0.169);
+const vec3 D_SUN     = vec3(1.0, 0.965, 0.875);
+const vec3 D_LAT     = vec3(0.761, 0.314, 0.169);
+const vec3 D_LENS    = vec3(0.165, 0.251, 0.816);
+
+// resolved per frame from uDay
+vec3 ZENITH, UPPER, BAND, HORIZON, LAND, LAND2, RIM, SUN, LAT, LENS;
 
 vec3 sky(float t) {
   // t: 0 at the horizon -> 1 at the zenith
-  vec3 c = mix(OCHRE, DUSK, smoothstep(0.0, 0.12, t));
-  c = mix(c, EARTH, smoothstep(0.12, 0.42, t));
-  c = mix(c, NIGHT, smoothstep(0.36, 0.85, t));
+  vec3 c = mix(HORIZON, BAND, smoothstep(0.0, 0.12, t));
+  c = mix(c, UPPER, smoothstep(0.12, 0.42, t));
+  c = mix(c, ZENITH, smoothstep(0.36, 0.85, t));
   return c;
 }
 
@@ -97,6 +116,17 @@ float lattice(vec2 p, float density) {
 }
 
 void main() {
+  ZENITH = mix(N_ZENITH, D_ZENITH, uDay);
+  UPPER = mix(N_UPPER, D_UPPER, uDay);
+  BAND = mix(N_BAND, D_BAND, uDay);
+  HORIZON = mix(N_HORIZON, D_HORIZON, uDay);
+  LAND = mix(N_LAND, D_LAND, uDay);
+  LAND2 = mix(N_LAND2, D_LAND2, uDay);
+  RIM = mix(N_RIM, D_RIM, uDay);
+  SUN = mix(N_SUN, D_SUN, uDay);
+  LAT = mix(N_LAT, D_LAT, uDay);
+  LENS = mix(N_LENS, D_LENS, uDay);
+
   vec2 fc = gl_FragCoord.xy;
   float aspect = uRes.x / uRes.y;
   vec2 p = vec2((vUv.x - 0.5) * aspect, vUv.y - 0.5);
@@ -119,19 +149,19 @@ void main() {
 
   // the sun: a soft disc sitting on the ridge
   float sun = smoothstep(0.13, 0.0, length((p - vec2(0.3 * aspect, sunY)) * vec2(1.0, 1.15)));
-  col = mix(col, mix(OCHRE, BONE, 0.35), sun * 0.9);
+  col = mix(col, mix(HORIZON, SUN, 0.35), sun * 0.9);
 
   // land below the ridge
   float land = smoothstep(0.004, -0.004, p.y - ridge);
-  vec3 ground = mix(INK, EARTH * 0.35, smoothstep(-0.5, 0.0, p.y) * 0.5);
+  vec3 ground = mix(LAND, LAND2, smoothstep(-0.5, 0.0, p.y) * 0.5);
   float rim = smoothstep(0.035, 0.0, abs(p.y - ridge)) * (1.0 - land * 0.4);
   col = mix(col, ground, land);
-  col += DUSK * rim * 0.25;
+  col = mix(col, RIM, rim * 0.3);
 
   // lattice: faint over the land, lit up by the cursor lens
   float lat = lattice(p + vec2(0.0, t * 0.006), uDensity);
   float latMask = land * 0.07 + lens * 0.6;
-  vec3 latCol = mix(OCHRE, JAC, smoothstep(0.08, 0.32, dm));
+  vec3 latCol = mix(LAT, LENS, smoothstep(0.08, 0.32, dm));
   col = mix(col, latCol, lat * latMask);
 
   // ordered dither + quantisation
@@ -144,7 +174,7 @@ void main() {
 
   // vignette
   vec2 v = vUv - 0.5;
-  col *= 1.0 - dot(v, v) * 0.55;
+  col *= 1.0 - dot(v, v) * mix(0.55, 0.18, uDay);
 
   gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
 }

@@ -81,7 +81,6 @@ export function SoundToggle() {
 export default function Header() {
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [onDark, setOnDark] = useState(true);
   const [open, setOpen] = useState(false);
   const path = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
@@ -95,12 +94,6 @@ export default function Header() {
       setScrolled(y > 40);
       setHidden((h) => (y > 400 && y > last + 4 ? true : y < last - 4 ? false : h));
       last = y;
-      // keep the header readable over always-dark sections (the dusk hero), in either theme
-      const dark = Array.from(document.querySelectorAll("[data-header-dark]")).some((d) => {
-        const r = d.getBoundingClientRect();
-        return r.top <= 36 && r.bottom >= 36;
-      });
-      setOnDark(dark);
     };
     check();
     addEventListener("scroll", check, { passive: true });
@@ -120,13 +113,11 @@ export default function Header() {
     };
   }, [open]);
 
-  const forceDark = onDark && !open;
-
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-[transform,background-color,color] duration-500 [transition-timing-function:var(--ease-out)] ${hidden && !open ? "-translate-y-full" : ""} ${scrolled && !open && !onDark ? "bg-bg/80 backdrop-blur-md" : ""}`}
-        style={forceDark ? ({ "--fg": "#efe6d8", "--line": "rgb(239 230 216 / .22)", color: "#efe6d8" } as React.CSSProperties) : { color: "var(--fg)" }}
+        className={`fixed inset-x-0 top-0 z-50 transition-[transform,background-color,color] duration-500 [transition-timing-function:var(--ease-out)] ${hidden && !open ? "-translate-y-full" : ""} ${scrolled && !open ? "bg-bg/80 backdrop-blur-md" : ""}`}
+        style={{ color: "var(--fg)" }}
       >
         <div className="wrap flex h-[4.5rem] items-center justify-between gap-4">
           <TransitionLink href="/" className="group flex items-center gap-3" aria-label="Katlego Nkuna, home">

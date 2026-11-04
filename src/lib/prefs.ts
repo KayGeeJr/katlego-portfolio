@@ -5,7 +5,7 @@ import { useSyncExternalStore } from "react";
 type Prefs = { theme: "dark" | "light"; sound: boolean; negative: boolean };
 const KEY = "kn-prefs";
 const listeners = new Set<() => void>();
-let state: Prefs = { theme: "dark", sound: false, negative: false };
+let state: Prefs = { theme: "light", sound: false, negative: false };
 let hydrated = false;
 
 function load() {
@@ -13,9 +13,9 @@ function load() {
   hydrated = true;
   try {
     const saved = JSON.parse(localStorage.getItem(KEY) ?? "{}");
-    state = { ...state, theme: saved.theme === "light" ? "light" : "dark", sound: false, negative: false };
+    state = { ...state, theme: saved.theme === "dark" ? "dark" : "light", sound: false, negative: false };
   } catch {}
-  state.theme = document.documentElement.dataset.theme === "light" ? "light" : "dark";
+  state.theme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
 }
 
 export function getPrefs() {
@@ -30,7 +30,7 @@ export function setPrefs(patch: Partial<Prefs>) {
   root.dataset.theme = state.theme;
   if (state.negative) root.setAttribute("data-negative", "");
   else root.removeAttribute("data-negative");
-  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", state.theme === "light" ? "#f1e7d6" : "#16120e");
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", state.theme === "light" ? "#faf6ef" : "#15130f");
   try {
     localStorage.setItem(KEY, JSON.stringify({ theme: state.theme }));
   } catch {}
